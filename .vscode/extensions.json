@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin",
+    "box-of-hats.bemhelper",
+    "diz.ecsstractor-port",
+    "antfu.iconify",
+    "glhrmoura.imports-sorter",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
