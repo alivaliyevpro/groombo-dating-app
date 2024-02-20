@@ -4,7 +4,7 @@
 // }
 // const { desktopView } = defineProps<Props>()
 
-const desktopView = false
+const desktopView = false;
 </script>
 
 <template>
@@ -28,13 +28,8 @@ const desktopView = false
             </div>
 
             <!-- Mobile cover content-->
-            <div
-              v-else
-              class="reg-banner-cover__mobile-content reg-banner-cover-content"
-            >
-              <h1 class="reg-banner-cover-content__title">
-                Make The First Move.
-              </h1>
+            <div v-else class="reg-banner-cover__mobile-content reg-banner-cover-content">
+              <h1 class="reg-banner-cover-content__title">Make The First Move.</h1>
               <p class="reg-banner-cover-content__text">
                 Start meeting new people <br />
                 in your area!
@@ -60,13 +55,13 @@ const desktopView = false
 
   // .reg-banner__wrapper
   &__wrapper {
-    @apply flex justify-center items-center xl:justify-start h-full w-full relative; // xl:ml-5
+    @apply flex justify-center items-center xl:justify-start h-full w-full relative mt-7; // xl:ml-5
   }
 
   // .reg-banner__layer
 
   &__layer {
-    @apply bg-primary rounded-2xl h-[366px] xl:h-[748px] w-[260px] xl:w-[573px] absolute;
+    @apply bg-primary rounded-2xl h-[366px] xl:h-[748px] w-[260px] xl:w-[573px] absolute -skew-y-1;
   }
 
   // .reg-banner__layer-first
@@ -108,8 +103,6 @@ const desktopView = false
   }
 }
 .reg-banner-cover-content {
-  // border: 1px solid #04ee04;
-
   @apply -rotate-1 h-full;
 
   // .reg-banner-cover-content__imgS
@@ -121,13 +114,13 @@ const desktopView = false
   // .reg-banner-cover-content__title
 
   &__title {
-    @apply font-sans mt-[89px] ml-[17px] text-[40px] leading-[54px] font-bold text-white;
+    @apply font-sans mt-[89px] ml-[17px] text-[40px] leading-[54px] font-bold text-white skew-y-1;
   }
 
   // .reg-banner-cover-content__text
 
   &__text {
-    @apply font-sans ml-4 mt-11 text-white font-normal text-sm text-left leading-6;
+    @apply font-sans ml-4 mt-11 text-white font-normal text-sm text-left leading-6 skew-y-1;
   }
 }
 </style>
