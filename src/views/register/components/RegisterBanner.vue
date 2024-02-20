@@ -93,7 +93,7 @@ const desktopView = false
   // .reg-banner-cover__wrapper
 
   &__wrapper {
-    @apply h-full w-full;
+    // @apply h-full w-full;
   }
 
   // .reg-banner-cover__desktop-content
