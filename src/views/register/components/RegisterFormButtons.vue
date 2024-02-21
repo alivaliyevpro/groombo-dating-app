@@ -1,17 +1,24 @@
 <script setup lang="ts">
 interface Props {
-  menRadio: string;
-  womenRadio: string;
+  menRadio: string
+  womenRadio: string
+  prevQuestion: () => void
+  nextQuestion: () => void
 }
-const { menRadio, womenRadio } = defineProps<Props>();
+const { menRadio, womenRadio } = defineProps<Props>()
 </script>
 
 <template>
   <div class="reg-form-buttons__wrapper">
-    <button type="button" class="reg-form-buttons__item reg-form-button button--back">
+    <button
+      @click.prevent="prevQuestion"
+      type="button"
+      class="reg-form-buttons__item reg-form-button button--back"
+    >
       Back
     </button>
     <button
+      @click.prevent="nextQuestion"
       type="button"
       :disabled="!menRadio || !womenRadio"
       class="reg-form-buttons__item reg-form-button button--next"
