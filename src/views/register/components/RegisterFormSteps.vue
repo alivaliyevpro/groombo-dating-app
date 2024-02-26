@@ -1,19 +1,19 @@
 <script setup lang="ts">
 interface Props {
-  steps: number[]
+  regFormSteps: number[]
   activeStepIndex: number
 }
-const { steps, activeStepIndex } = defineProps<Props>()
+const { regFormSteps, activeStepIndex } = defineProps<Props>()
 </script>
 
 <template>
   <div class="reg-form-steps">
     <div class="reg-form-steps__wrapper">
       <div
-        v-for="step in steps"
+        v-for="regFormStep in regFormSteps"
         class="reg-form-steps__step"
         :class="{
-          'reg-form-steps--active-step': activeStepIndex === step,
+          'reg-form-steps--active-step': activeStepIndex === regFormStep,
         }"
       ></div>
     </div>
