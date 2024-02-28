@@ -4,34 +4,59 @@ import RegisterFooter from '../register/components/RegisterFooter.vue'
 import RegisterFormButtons from './components/RegisterFormButtons.vue'
 import RegisterFormSteps from './components/RegisterFormSteps.vue'
 
-import RegisterQuestionOne from './components/RegisterQuestionOne.vue'
-import RegisterQuestionTwo from './components/RegisterQuestionTwo.vue'
+// import RegisterQuestionOne from './components/RegisterQuestionOne.vue'
+// import RegisterQuestionTwo from './components/RegisterQuestionTwo.vue'
+// import RegisterQuestionThree from './components/RegisterQuestionThree.vue'
+import RegisterQuestionFour from './components/RegisterQuestionFour.vue'
 
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
+import { z } from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
 
-// import { toTypedSchema } from '@vee-validate/zod';
-// import * as zod from 'zod';
+interface IRegForm {
+  userName: string | undefined
+  userPreferredGender: string | undefined
+  userGender: string | undefined
+  userBirthday: string | Date | undefined
+}
 
-// interface RegForm {
-// email?: string | null;
-// password?: string | null;
-// }
+const currentYear = new Date().getFullYear()
+const currentMonth = new Date().getMonth()
+const currentDay = new Date().getDay()
 
-// const schema = yup.object({
-// email: yup.string().required().email(),
-// });
+const validationSchema = toTypedSchema(
+  z.object({
+    userName: z.string().optional(),
+    userPreferredGender: z.string().optional(),
+    userGender: z.string().optional(),
 
-//values, errors, <RegForm> defineField
-const { handleSubmit, defineField } = useForm({
-  // validationSchema: schema,
+    // 02.28.2009
+
+    userBirthday: z.coerce
+      .date()
+      // MM.DD.YYYYY
+      // consider the length of input when validate for next step
+
+      // .min(new Date('02-28-2006'), {})
+
+      // .min(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
+      //   message: 'Sorry, you are too old for using the app',
+      // })
+      .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
+        message: 'Sorry, you are too young for using the app',
+      }),
+  })
+)
+
+const { handleSubmit, defineField, errors, values } = useForm<IRegForm>({
+  validationSchema: validationSchema,
 })
 
-const [preferredGenderRadio, preferredGenderRadioAttrs] =
-  defineField('preferred_gender')
-const [userGenderRadio, userGenderRadioAttrs] = defineField('user_gender')
-
-// console.log('BEFORE SUBMIT', preferredGenderRadioAttrs)
+//  const [userPreferredGenderRadio, userPreferredGenderRadioAttrs] = defineField('userPreferredGender')
+// const [userGenderRadio, userGenderRadioAttrs] = defineField('userGender')
+// const [userNameRadio, userNameRadioAttrs] = defineField('userName')
+const [userBirthdayRadio, userBirthdayRadioAttrs] = defineField('userBirthday')
 
 // console.log(
 //   'dirty',
@@ -46,33 +71,12 @@ const [userGenderRadio, userGenderRadioAttrs] = defineField('user_gender')
 //   meta.value.initialValues
 // )
 
-// const menRadio = defineModel()
-
-// console.log("maleRadioAttrs", maleRadioAttrs);
-// console.log("ERRORS", errors);
-// console.log("initialValues", meta.value.initialValues);
-
-const onRegFormChange = handleSubmit(async (values: string): Promise<void> => {
+const onRegFormChange = handleSubmit((values) => {
   console.log(JSON.stringify(values, null, 2))
-  // console.log('handleSubmit data', values)
-
-  // console.log('After submit', preferredGenderRadioAttrs)
-
-  // console.log(
-  //   'dirty',
-  //   meta.value.dirty,
-  //   'pending',
-  //   meta.value.pending,
-  //   'touched',
-  //   meta.value.touched,
-  //   'valid',
-  //   meta.value.valid,
-  //   'initialValues',
-  //   meta.value.initialValues
-  // )
+  console.log(values.userBirthday)
 })
 
-const activeStepIndex = ref(1)
+const activeStepIndex = ref(4)
 const regFormSteps = [1, 2, 3, 4, 5, 6]
 
 function prevQuestion() {
@@ -101,24 +105,41 @@ function nextQuestion() {
       <div class="reg-form__container">
         <div class="reg-form__wrapper">
           <!-- QUESTION ONE -->
-          <RegisterQuestionOne
+          <!-- <RegisterQuestionOne
             v-if="activeStepIndex === 1"
-            v-model="preferredGenderRadio"
-            v-bind="preferredGenderRadioAttrs"
-          />
+            v-model="userPreferredGenderRadio"
+            v-bind="userPreferredGenderRadioAttrs"
+          /> -->
           <!-- QUESTION ONE -->
 
           <!-- QUESTION TWO -->
-          <RegisterQuestionTwo
+          <!-- <RegisterQuestionTwo
             v-if="activeStepIndex === 2"
             v-model="userGenderRadio"
             v-bind="userGenderRadioAttrs"
-          />
+          /> -->
           <!-- QUESTION TWO -->
+
+          <!-- QUESTION THREE -->
+          <!-- <RegisterQuestionThree
+            v-if="activeStepIndex === 3"
+            v-model="userNameRadio"
+            v-bind="userNameRadioAttrs"
+          /> -->
+          <!-- QUESTION THREE -->
+
+          <!-- QUESTION FOUR -->
+          <RegisterQuestionFour
+            v-if="activeStepIndex === 4"
+            v-model="userBirthdayRadio"
+            v-bind="userBirthdayRadioAttrs"
+            :errors="errors"
+            :values="values"
+          />
+          <!-- QUESTION FOUR -->
 
           <!-- FORM-NAV BUTTONS -->
           <RegisterFormButtons
-            :preferredGenderRadio="preferredGenderRadio"
             :activeStepIndex="activeStepIndex"
             :nextQuestion="nextQuestion"
             :prevQuestion="prevQuestion"
@@ -167,100 +188,6 @@ function nextQuestion() {
   }
   .reg-form-quest {
   }
-  // .reg-form-quest-first {
-  //   // .reg-form-quest-first__title
-
-  //   &__title {
-  //     font-family: Inter;
-  //     font-size: 14px;
-  //     font-weight: 600;
-  //     line-height: 24px;
-  //     letter-spacing: 0em;
-  //     text-align: center;
-
-  //     margin-top: 5px;
-  //   }
-
-  //   // .reg-form-quest-first__opts-wrapper
-
-  //   &__opts-wrapper {
-  //     display: flex;
-  //     align-items: center;
-  //     justify-content: center;
-  //     gap: 16px;
-
-  //     margin-top: 8px;
-  //   }
-
-  //   // .reg-form-quest-first__opt-wrapper
-
-  //   &__opt-wrapper {
-  //   }
-
-  //   // .reg-form-quest-first__men-label
-
-  //   &__men-label {
-  //     font-family: Roboto;
-  //     font-size: 12px;
-  //     font-weight: 400;
-  //     line-height: 17px;
-  //     text-align: center;
-
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 6px;
-  //   }
-
-  //   // .reg-form-quest-first__men-radio-input
-
-  //   &__men-radio-input {
-  //     -webkit-appearance: none;
-  //     appearance: none;
-  //     background-color: #f1f7ff;
-  //     width: 55px;
-  //     height: 55px;
-  //     border-radius: 12px;
-  //     background-image: url(../../assets/icons/male-icon.svg);
-  //     background-size: 20.13px;
-  //     background-repeat: no-repeat;
-  //     background-position: center;
-
-  //     @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/male-white-icon.svg')];
-  //   }
-
-  //   // .reg-form-quest-first__women-label
-
-  //   &__women-label {
-  //     font-family: Roboto;
-  //     font-size: 12px;
-  //     font-weight: 400;
-  //     line-height: 17px;
-  //     letter-spacing: 0em;
-  //     text-align: center;
-
-  //     display: flex;
-  //     flex-direction: column;
-  //     gap: 6px;
-  //   }
-
-  //   // .reg-form-quest-first__women-radio-input
-
-  //   &__women-radio-input {
-  //     -webkit-appearance: none;
-  //     appearance: none;
-  //     width: 55px;
-  //     height: 55px;
-  //     border-radius: 12px;
-  //     background-image: url(../../assets/icons/female-icon.svg);
-
-  //     background-size: 14.38px;
-  //     background-repeat: no-repeat;
-  //     background-position: center;
-  //     background-color: #f1f7ff;
-
-  //     @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/female-white-icon.svg')];
-  //   }
-  // }
 
   .reg-form {
     // .reg-form__nav-to-sign-in
@@ -307,7 +234,6 @@ function nextQuestion() {
       line-height: 16px;
       letter-spacing: 0.20000000298023224px;
       text-align: center;
-
       color: #3e7bfa;
     }
   }

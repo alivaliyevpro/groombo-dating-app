@@ -1,11 +1,10 @@
 <script setup lang="ts">
 interface Props {
-  preferredGenderRadio: boolean
+  // preferredGenderRadio: boolean | string
   activeStepIndex: number
   prevQuestion: () => void
   nextQuestion: () => void
 }
-// :disabled="!menRadio || !womenRadio"
 
 const { prevQuestion, nextQuestion } = defineProps<Props>()
 </script>
@@ -20,9 +19,9 @@ const { prevQuestion, nextQuestion } = defineProps<Props>()
     >
       Back
     </button>
+    <!-- :disabled="!preferredGenderRadio" -->
     <button
       type="button"
-      :disabled="!preferredGenderRadio"
       @click.prevent="nextQuestion"
       class="reg-form-buttons__item reg-form-button button--next"
     >
@@ -36,7 +35,7 @@ const { prevQuestion, nextQuestion } = defineProps<Props>()
   // .reg-form-buttons__wrapper
 
   &__wrapper {
-    @apply flex gap-4 items-center justify-center mt-6;
+    @apply flex gap-4 items-center justify-center;
   }
 
   // .reg-form-buttons__item
