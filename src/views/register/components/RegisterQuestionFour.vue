@@ -29,7 +29,7 @@ const userBirthday = defineModel()
       </label>
       <span v-if="false" class="reg-form-quest-four__error-msg">
         {{
-          values.userBirthday.length === 10
+          values?.userBirthday?.length === 10
             ? errors.userBirthday
             : 'Invalid date'
         }}</span

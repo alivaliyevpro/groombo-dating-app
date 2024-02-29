@@ -31,18 +31,12 @@ const validationSchema = toTypedSchema(
     userPreferredGender: z.string().optional(),
     userGender: z.string().optional(),
 
-    // 02.28.2009
-
     userBirthday: z.coerce
       .date()
-      // MM.DD.YYYYY
       // consider the length of input when validate for next step
-
-      // .min(new Date('02-28-2006'), {})
-
-      // .min(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
-      //   message: 'Sorry, you are too old for using the app',
-      // })
+      .min(new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`), {
+        message: "Why don't you  just die instead?",
+      })
       .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
         message: 'Sorry, you are too young for using the app',
       }),
@@ -73,7 +67,7 @@ const [userBirthdayRadio, userBirthdayRadioAttrs] = defineField('userBirthday')
 
 const onRegFormChange = handleSubmit((values) => {
   console.log(JSON.stringify(values, null, 2))
-  console.log(values.userBirthday)
+  // console.log(JSON.stringify(values.userBirthday, null, 2))
 })
 
 const activeStepIndex = ref(4)
