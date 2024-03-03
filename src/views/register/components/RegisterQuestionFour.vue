@@ -29,19 +29,12 @@ const userBirthday = defineModel()
           class="reg-form-quest-four__clear-input-button"
         ></button>
       </label>
-      <!-- <span
-        v-if="values?.userBirthday?.length === 0"
-        class="reg-form-quest-four__error-msg"
-      >
-        {{ 'Thiiiis field is required' }}
-      </span> -->
-
-      <!-- use this shit values?.userBirthday?.length === 10 && -->
 
       <span
         v-if="userBirthdayErrorMsg && errors?.userBirthday"
         class="reg-form-quest-four__error-msg"
       >
+        {{ values.userBirthday.length === 10 && errors.userBirthday }}
         <!-- values?.userBirthday?.length === 10 || -->
         <!-- && errors?.value.userBirthday -->
         <!-- {{
@@ -55,7 +48,6 @@ const userBirthday = defineModel()
             ? 'this shit required'
             : values.userBirthday.length === 10 && errors.userBirthday
         }} -->
-        {{ values.userBirthday.length === 10 && errors.userBirthday }}
       </span>
 
       {{ errors?.userBirthday }}

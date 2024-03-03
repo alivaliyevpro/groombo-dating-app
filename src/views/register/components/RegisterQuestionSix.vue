@@ -1,12 +1,11 @@
 <script setup lang="ts">
 interface Props {
-  errors: any;
-  values: any;
+  userPasswordErrorMsg: boolean
+  errors: any
 }
-// values
-const { errors } = defineProps<Props>();
+const { errors } = defineProps<Props>()
 
-const userPassword = defineModel();
+const userPassword = defineModel()
 </script>
 
 <template>
@@ -22,12 +21,15 @@ const userPassword = defineModel();
           type="text"
           placeholder="Enter your password"
         />
-        <!-- <button
+        <button
           v-if="true"
           class="reg-form-quest-six__clear-input-button"
-        ></button> -->
+        ></button>
       </label>
-      <span v-if="true" class="reg-form-quest-six__error-msg">
+      <span
+        v-if="userPasswordErrorMsg && errors.userPassword"
+        class="reg-form-quest-six__error-msg"
+      >
         {{ errors.userPassword }}
         <!-- {{
           values?.userPassword?.length < 3

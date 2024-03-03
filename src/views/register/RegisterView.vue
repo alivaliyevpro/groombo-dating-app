@@ -1,4 +1,14 @@
 <script setup lang="ts">
+// TODOS
+
+// Ask help for userBirthday validation
+// Disable next button is input is not valid
+// Add checkbox of Privacy Policy and Terms and Conditions acceptence
+// Make mobile view pixel perfect
+// Make the view desktop responsive
+// Convert CSS to Tailwind
+// Make one template component and use it for every question
+
 import RegisterBanner from '../register/components/RegisterBanner.vue'
 import RegisterFooter from '../register/components/RegisterFooter.vue'
 import RegisterFormButtons from './components/RegisterFormButtons.vue'
@@ -11,9 +21,9 @@ import RegisterQuestionFour from './components/RegisterQuestionFour.vue'
 import RegisterQuestionFive from './components/RegisterQuestionFive.vue'
 import RegisterQuestionSix from './components/RegisterQuestionSix.vue'
 
+import { z } from 'zod'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
-import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 
 interface IRegForm {
@@ -22,7 +32,7 @@ interface IRegForm {
   userName: string | undefined
   userBirthday: string | undefined
   userEmail: string | undefined
-  userPassword: string | number | undefined
+  userPassword: string | undefined
 }
 
 const userNameErrorMsg = ref(false)
@@ -30,9 +40,9 @@ const userBirthdayErrorMsg = ref(false)
 const userEmailErrorMsg = ref(false)
 const userPasswordErrorMsg = ref(false)
 
-const currentYear = new Date().getFullYear()
-const currentMonth = new Date().getMonth()
-const currentDay = new Date().getDate()
+// const currentYear = new Date().getFullYear()
+// const currentMonth = new Date().getMonth()
+// const currentDay = new Date().getDate()
 
 const validationSchema = toTypedSchema(
   z.object({
@@ -44,17 +54,15 @@ const validationSchema = toTypedSchema(
 
     // Name Validation
     userName: z
-      .string({
-        // required_error: 'Name is required',
-        // invalid_type_error: 'Name must be a string',
-      })
+      .string()
+      .trim()
       .min(2, {
         message: 'Name must be at least 2 characters',
       })
       .max(20, {
         message: 'Name cannot be more than 20 characters',
       })
-      .regex(/^[A-Za-z]+$/, {
+      .regex(/^[a-zA-Z ]+$/, {
         message: 'Please use letters only',
       }),
 
@@ -67,7 +75,7 @@ const validationSchema = toTypedSchema(
     //       .min(
     //         new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`),
     //         {
-    //           message: "Why don't you just die instead of date someone?",
+    //           message: "Sorry, you are too old for using the app",
     //         }
     //       )
     //       .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
@@ -88,7 +96,7 @@ const validationSchema = toTypedSchema(
     //     invalidErrorMessage: 'Please enter a valid date',
     //   })
     //   .min(new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`), {
-    //     message: "Why don't you just die instead of date someone?",
+    //     message: "Sorry, you are too old for using the app",
     //   })
     //   .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
     //     message: 'You cannot input a future date',
@@ -96,16 +104,19 @@ const validationSchema = toTypedSchema(
     //   .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
     //     message: 'Sorry, you are too young for using the app',
     //   })
-    userBirthday: z.coerce.string().optional(),
+
+    userBirthday: z.coerce.string().optional(), // Needs to be solved!!!
+
+    // Email Validation
+    userEmail: z.string().trim().email(),
 
     // Password Validation
     userPassword: z
-      .string({
-        required_error: 'Password is required',
-      })
+      .string()
+      .trim()
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{8,})/, {
         message:
-          'Password must be at least 8 characters, and must include at least one Uppercase latter and a number',
+          'Password must be at least 8 characters, and must include at least one uppercase latter and a number',
       }),
   })
   // .required()
@@ -124,18 +135,22 @@ const [userBirthday, userBirthdayAttrs] = defineField('userBirthday')
 const [userEmail, userEmailAttrs] = defineField('userEmail')
 const [userPassword, userPasswordAttrs] = defineField('userPassword')
 
-const onRegFormChange = handleSubmit((values) => {
-  console.log(JSON.stringify(values, null, 2))
+// Form submit handler
+const handleRegFormSubmit = handleSubmit((values) => {
+  console.log('USER REGISTRATION DATA', JSON.stringify(values, null, 2))
 })
 
+// Current form step identifier
 const activeStepIndex = ref(1)
 const regFormSteps = [1, 2, 3, 4, 5, 6]
 
 function nextQuestion() {
+  // Checks every form step and passes if data filled with no error
   if (activeStepIndex.value === 1 && Boolean(userPreferredGender.value)) {
     activeStepIndex.value = 2
   } else if (activeStepIndex.value === 2 && Boolean(userGender.value)) {
-    activeStepIndex.value = 3
+    // activeStepIndex.value = 3
+    activeStepIndex.value++
   } else if (
     activeStepIndex.value === 3 &&
     Boolean(values.userName) &&
@@ -158,15 +173,25 @@ function nextQuestion() {
     errors.value.userPassword === undefined &&
     Boolean(values.userPassword)
   ) {
-    onRegFormChange()
+    // Handles form submit if there is no error in any input
+    handleRegFormSubmit()
   } else {
-    userNameErrorMsg.value = true
-    userBirthdayErrorMsg.value = true
-    userEmailErrorMsg.value = true
-    userPasswordErrorMsg.value = true
+    // lets Next buttons to trigger the error popups accordingly
+    if (activeStepIndex.value === 3) {
+      userNameErrorMsg.value = true
+    }
 
-    console.log(errors.value.userBirthday)
-    console.log(values.userBirthday)
+    if (activeStepIndex.value === 4) {
+      userBirthdayErrorMsg.value = true
+    }
+
+    if (activeStepIndex.value === 5) {
+      userEmailErrorMsg.value = true
+    }
+
+    if (activeStepIndex.value === 6) {
+      userPasswordErrorMsg.value = true
+    }
   }
 }
 
@@ -183,7 +208,7 @@ function prevQuestion() {
 <template>
   <main class="page">
     <RegisterBanner />
-    <form @submit.prevent="onRegFormChange" class="reg-form">
+    <form @submit.prevent="nextQuestion" class="reg-form">
       <div class="reg-form__container">
         <div class="reg-form__wrapper">
           <!-- QUESTION ONE -->
@@ -240,6 +265,7 @@ function prevQuestion() {
             v-if="activeStepIndex === 6"
             v-model="userPassword"
             v-bind="userPasswordAttrs"
+            :userPasswordErrorMsg="userPasswordErrorMsg"
             :errors="errors"
             :values="values"
           />
