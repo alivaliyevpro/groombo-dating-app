@@ -1,64 +1,40 @@
 <script setup lang="ts">
 interface Props {
-  userBirthdayErrorMsg: boolean
+  userEmailErrorMsg: boolean
   errors: any
   values: any
 }
 
-const { errors, values, userBirthdayErrorMsg } = defineProps<Props>()
+const { errors, userEmailErrorMsg } = defineProps<Props>()
 
-const userBirthday = defineModel()
+const userEmail = defineModel()
 </script>
 
 <template>
-  <div class="reg-form__quest reg-form-quest-four">
-    <h3 class="reg-form-quest-four__title">When is your birthday?</h3>
+  <div class="reg-form__quest reg-form-quest-five">
+    <h3 class="reg-form-quest-five__title">What is your E-mail address</h3>
 
-    <div class="reg-form-quest-four__input-wrapper">
-      <label for="userBirthday" class="reg-form-quest-four__birtday-label">
+    <div class="reg-form-quest-five__input-wrapper">
+      <label for="userEmail" class="reg-form-quest-five__email-label">
         <input
-          v-model="userBirthday"
-          id="userBirthday"
-          class="reg-form-quest-four__birtday-input"
+          v-model="userEmail"
+          id="userEmail"
+          class="reg-form-quest-five__email-input"
           type="text"
-          maxlength="10"
-          placeholder="MM.DD.YYYYY"
+          maxlength="40"
+          placeholder="Enter your E-mail"
         />
         <button
-          v-if="false"
-          class="reg-form-quest-four__clear-input-button"
+          v-if="true"
+          class="reg-form-quest-five__clear-input-button"
         ></button>
       </label>
-      <!-- <span
-        v-if="values?.userBirthday?.length === 0"
-        class="reg-form-quest-four__error-msg"
-      >
-        {{ 'Thiiiis field is required' }}
-      </span> -->
-
-      <!-- use this shit values?.userBirthday?.length === 10 && -->
-
       <span
-        v-if="userBirthdayErrorMsg && errors?.userBirthday"
-        class="reg-form-quest-four__error-msg"
+        v-if="userEmailErrorMsg && errors?.userEmail"
+        class="reg-form-quest-five__error-msg"
       >
-        <!-- values?.userBirthday?.length === 10 || -->
-        <!-- && errors?.value.userBirthday -->
-        <!-- {{
-          values?.userBirthday?.length === 10
-            ? errors?.userBirthday
-            : 'Invalid date'
-        }} -->
-
-        <!-- {{
-          values.userBirthday.length === 0
-            ? 'this shit required'
-            : values.userBirthday.length === 10 && errors.userBirthday
-        }} -->
-        {{ values.userBirthday.length === 10 && errors.userBirthday }}
+        {{ errors?.userEmail }}
       </span>
-
-      {{ errors?.userBirthday }}
     </div>
   </div>
 </template>
@@ -70,8 +46,8 @@ const userBirthday = defineModel()
   &__quest {
   }
 }
-.reg-form-quest-four {
-  // .reg-form-quest-four__title
+.reg-form-quest-five {
+  // .reg-form-quest-five__title
 
   &__title {
     // border: 1px solid red;
@@ -85,7 +61,7 @@ const userBirthday = defineModel()
     margin-top: 30px;
   }
 
-  // .reg-form-quest-four__input-wrapper
+  // .reg-form-quest-five__input-wrapper
 
   &__input-wrapper {
     // border: 1px solid red;
@@ -100,16 +76,16 @@ const userBirthday = defineModel()
     // border: 1px solid red;
   }
 
-  // .reg-form-quest-four__birtday-label
+  // .reg-form-quest-five__email-label
 
-  &__birtday-label {
+  &__email-label {
     // border: 1px solid red;
     position: relative;
   }
 
-  // .reg-form-quest-four__birtday-input
+  // .reg-form-quest-five__email-input
 
-  &__birtday-input {
+  &__email-input {
     // border: 1px solid red;
 
     width: 280px;
@@ -129,7 +105,7 @@ const userBirthday = defineModel()
     outline: none;
   }
 
-  // &__birtday-input .error {
+  // &__email-input .error {
   //   background-color: rgb(255, 229, 229);
   // }
 
@@ -144,7 +120,7 @@ const userBirthday = defineModel()
   //   height: 16px;
   // }
 
-  // .reg-form-quest-four__error-msg
+  // .reg-form-quest-five__error-msg
 
   &__error-msg {
     // border: 1px solid red;

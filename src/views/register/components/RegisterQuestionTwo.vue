@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const userGender = defineModel()
+const userGender = defineModel();
 // console.log(userGender.value)
 </script>
 
@@ -44,10 +44,10 @@ const userGender = defineModel()
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    letter-spacing: 0em;
     text-align: center;
 
-    margin-top: 5px;
+    color: #28293d;
+    margin-top: 8px;
   }
 
   // .reg-form-quest-two__opts-wrapper
@@ -59,6 +59,7 @@ const userGender = defineModel()
     gap: 16px;
 
     margin-top: 8px;
+    margin-bottom: 24px;
   }
 
   // .reg-form-quest-two__opt-wrapper

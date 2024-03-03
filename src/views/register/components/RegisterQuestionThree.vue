@@ -1,10 +1,11 @@
 <script setup lang="ts">
 interface Props {
+  userNameErrorMsg: boolean
   errors: any
   values: any
 }
 
-const { errors, values } = defineProps<Props>()
+const { errors, userNameErrorMsg } = defineProps<Props>()
 const userName = defineModel()
 </script>
 
@@ -16,19 +17,22 @@ const userName = defineModel()
       <label for="userName" class="reg-form-quest-three__name-label">
         <input
           v-model="userName"
+          id="userName"
           class="reg-form-quest-three__name-input"
           type="text"
           placeholder="Enter your name"
         />
         <button
           v-if="false"
+          type="button"
           class="reg-form-quest-three__clear-input-button"
         ></button>
       </label>
-      <span class="reg-form-quest-three__error-msg">
-        {{
-          values.userName.length === 10 ? errors.userName : 'Invalid name'
-        }}</span
+      <span
+        v-if="userNameErrorMsg && errors?.userName"
+        class="reg-form-quest-three__error-msg"
+      >
+        {{ userNameErrorMsg && errors?.userName }}</span
       >
     </div>
   </div>
@@ -51,7 +55,10 @@ const userName = defineModel()
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    letter-spacing: 0em;
+    // letter-spacing: -0.01em;
+
+    letter-spacing: -0.1px;
+
     text-align: center;
     margin-top: 30px;
   }
@@ -92,7 +99,8 @@ const userName = defineModel()
     font-size: 13px;
     font-weight: 400;
     line-height: 16px;
-    letter-spacing: 0.20000000298023224px;
+    letter-spacing: -0.1px;
+
     text-align: left;
     // padding: 12px, 16px, 12px, 16px;
     padding-left: 16px;
@@ -133,7 +141,7 @@ const userName = defineModel()
     align-items: center;
     justify-content: center;
 
-    @apply font-sans hidden;
+    @apply font-sans;
     font-size: 10px;
     font-weight: 400;
     line-height: 12px;

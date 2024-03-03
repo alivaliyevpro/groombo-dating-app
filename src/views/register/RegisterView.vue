@@ -4,10 +4,12 @@ import RegisterFooter from '../register/components/RegisterFooter.vue'
 import RegisterFormButtons from './components/RegisterFormButtons.vue'
 import RegisterFormSteps from './components/RegisterFormSteps.vue'
 
-// import RegisterQuestionOne from './components/RegisterQuestionOne.vue'
-// import RegisterQuestionTwo from './components/RegisterQuestionTwo.vue'
-// import RegisterQuestionThree from './components/RegisterQuestionThree.vue'
+import RegisterQuestionOne from './components/RegisterQuestionOne.vue'
+import RegisterQuestionTwo from './components/RegisterQuestionTwo.vue'
+import RegisterQuestionThree from './components/RegisterQuestionThree.vue'
 import RegisterQuestionFour from './components/RegisterQuestionFour.vue'
+import RegisterQuestionFive from './components/RegisterQuestionFive.vue'
+import RegisterQuestionSix from './components/RegisterQuestionSix.vue'
 
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
@@ -15,63 +17,158 @@ import { z } from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 
 interface IRegForm {
-  userName: string | undefined
   userPreferredGender: string | undefined
   userGender: string | undefined
-  userBirthday: string | Date | undefined
+  userName: string | undefined
+  userBirthday: string | undefined
+  userEmail: string | undefined
+  userPassword: string | number | undefined
 }
+
+const userNameErrorMsg = ref(false)
+const userBirthdayErrorMsg = ref(false)
+const userEmailErrorMsg = ref(false)
+const userPasswordErrorMsg = ref(false)
 
 const currentYear = new Date().getFullYear()
 const currentMonth = new Date().getMonth()
-const currentDay = new Date().getDay()
+const currentDay = new Date().getDate()
 
 const validationSchema = toTypedSchema(
   z.object({
-    userName: z.string().optional(),
-    userPreferredGender: z.string().optional(),
-    userGender: z.string().optional(),
+    // Gender Preference Validation
+    userPreferredGender: z.union([z.literal('men'), z.literal('women')]),
 
-    userBirthday: z.coerce
-      .date()
-      // consider the length of input when validate for next step
-      .min(new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`), {
-        message: "Why don't you  just die instead?",
+    // User's Gender Validation
+    userGender: z.union([z.literal('men'), z.literal('women')]),
+
+    // Name Validation
+    userName: z
+      .string({
+        // required_error: 'Name is required',
+        // invalid_type_error: 'Name must be a string',
       })
-      .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
-        message: 'Sorry, you are too young for using the app',
+      .min(2, {
+        message: 'Name must be at least 2 characters',
+      })
+      .max(20, {
+        message: 'Name cannot be more than 20 characters',
+      })
+      .regex(/^[A-Za-z]+$/, {
+        message: 'Please use letters only',
+      }),
+
+    // Birth Date Validation
+    // userBirthday: z
+    //   .string()
+    //   .and(
+    //     z.coerce
+    //       .date()
+    //       .min(
+    //         new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`),
+    //         {
+    //           message: "Why don't you just die instead of date someone?",
+    //         }
+    //       )
+    //       .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
+    //         message: 'You cannot input a future date',
+    //       })
+    //       .max(
+    //         new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`),
+    //         {
+    //           message: 'Sorry, you are too young for using the app',
+    //         }
+    //       )
+    //   ),
+
+    // userBirthday: z.coerce
+    //   .date({
+    //     format: 'MM.DD.YYYY',
+    //     required_error: 'Date is required',
+    //     invalidErrorMessage: 'Please enter a valid date',
+    //   })
+    //   .min(new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`), {
+    //     message: "Why don't you just die instead of date someone?",
+    //   })
+    //   .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
+    //     message: 'You cannot input a future date',
+    //   })
+    //   .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
+    //     message: 'Sorry, you are too young for using the app',
+    //   })
+    userBirthday: z.coerce.string().optional(),
+
+    // Password Validation
+    userPassword: z
+      .string({
+        required_error: 'Password is required',
+      })
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.{8,})/, {
+        message:
+          'Password must be at least 8 characters, and must include at least one Uppercase latter and a number',
       }),
   })
+  // .required()
 )
 
 const { handleSubmit, defineField, errors, values } = useForm<IRegForm>({
   validationSchema: validationSchema,
 })
 
-//  const [userPreferredGenderRadio, userPreferredGenderRadioAttrs] = defineField('userPreferredGender')
-// const [userGenderRadio, userGenderRadioAttrs] = defineField('userGender')
-// const [userNameRadio, userNameRadioAttrs] = defineField('userName')
-const [userBirthdayRadio, userBirthdayRadioAttrs] = defineField('userBirthday')
-
-// console.log(
-//   'dirty',
-//   meta.value.dirty,
-//   'pending',
-//   meta.value.pending,
-//   'touched',
-//   meta.value.touched,
-//   'valid',
-//   meta.value.valid,
-//   'initialValues',
-//   meta.value.initialValues
-// )
+const [userPreferredGender, userPreferredGenderAttrs] = defineField(
+  'userPreferredGender'
+)
+const [userGender, userGenderAttrs] = defineField('userGender')
+const [userName, userNameAttrs] = defineField('userName')
+const [userBirthday, userBirthdayAttrs] = defineField('userBirthday')
+const [userEmail, userEmailAttrs] = defineField('userEmail')
+const [userPassword, userPasswordAttrs] = defineField('userPassword')
 
 const onRegFormChange = handleSubmit((values) => {
   console.log(JSON.stringify(values, null, 2))
-  // console.log(JSON.stringify(values.userBirthday, null, 2))
 })
 
-const activeStepIndex = ref(4)
+const activeStepIndex = ref(1)
 const regFormSteps = [1, 2, 3, 4, 5, 6]
+
+function nextQuestion() {
+  if (activeStepIndex.value === 1 && Boolean(userPreferredGender.value)) {
+    activeStepIndex.value = 2
+  } else if (activeStepIndex.value === 2 && Boolean(userGender.value)) {
+    activeStepIndex.value = 3
+  } else if (
+    activeStepIndex.value === 3 &&
+    Boolean(values.userName) &&
+    errors.value.userName === undefined
+  ) {
+    activeStepIndex.value = 4
+  } else if (
+    activeStepIndex.value === 4 &&
+    errors.value.userBirthday === undefined
+  ) {
+    activeStepIndex.value = 5
+  } else if (
+    activeStepIndex.value === 5 &&
+    errors.value.userEmail === undefined &&
+    Boolean(values.userEmail)
+  ) {
+    activeStepIndex.value = 6
+  } else if (
+    activeStepIndex.value === 6 &&
+    errors.value.userPassword === undefined &&
+    Boolean(values.userPassword)
+  ) {
+    onRegFormChange()
+  } else {
+    userNameErrorMsg.value = true
+    userBirthdayErrorMsg.value = true
+    userEmailErrorMsg.value = true
+    userPasswordErrorMsg.value = true
+
+    console.log(errors.value.userBirthday)
+    console.log(values.userBirthday)
+  }
+}
 
 function prevQuestion() {
   if (
@@ -81,56 +178,72 @@ function prevQuestion() {
     activeStepIndex.value--
   }
 }
-
-function nextQuestion() {
-  if (
-    activeStepIndex.value < regFormSteps.length &&
-    activeStepIndex.value >= regFormSteps[0]
-  ) {
-    activeStepIndex.value++
-  }
-}
 </script>
 
 <template>
   <main class="page">
     <RegisterBanner />
-    <form @change.prevent="onRegFormChange" class="reg-form">
+    <form @submit.prevent="onRegFormChange" class="reg-form">
       <div class="reg-form__container">
         <div class="reg-form__wrapper">
           <!-- QUESTION ONE -->
-          <!-- <RegisterQuestionOne
+          <RegisterQuestionOne
             v-if="activeStepIndex === 1"
-            v-model="userPreferredGenderRadio"
-            v-bind="userPreferredGenderRadioAttrs"
-          /> -->
+            v-model="userPreferredGender"
+            v-bind="userPreferredGenderAttrs"
+          />
           <!-- QUESTION ONE -->
 
           <!-- QUESTION TWO -->
-          <!-- <RegisterQuestionTwo
+          <RegisterQuestionTwo
             v-if="activeStepIndex === 2"
-            v-model="userGenderRadio"
-            v-bind="userGenderRadioAttrs"
-          /> -->
+            v-model="userGender"
+            v-bind="userGenderAttrs"
+          />
           <!-- QUESTION TWO -->
 
           <!-- QUESTION THREE -->
-          <!-- <RegisterQuestionThree
+          <RegisterQuestionThree
             v-if="activeStepIndex === 3"
-            v-model="userNameRadio"
-            v-bind="userNameRadioAttrs"
-          /> -->
+            v-model="userName"
+            v-bind="userNameAttrs"
+            :userNameErrorMsg="userNameErrorMsg"
+            :errors="errors"
+            :values="values"
+          />
           <!-- QUESTION THREE -->
 
           <!-- QUESTION FOUR -->
           <RegisterQuestionFour
             v-if="activeStepIndex === 4"
-            v-model="userBirthdayRadio"
-            v-bind="userBirthdayRadioAttrs"
+            v-model="userBirthday"
+            v-bind="userBirthdayAttrs"
+            :userBirthdayErrorMsg="userBirthdayErrorMsg"
             :errors="errors"
             :values="values"
           />
           <!-- QUESTION FOUR -->
+
+          <!-- QUESTION FIVE -->
+          <RegisterQuestionFive
+            v-if="activeStepIndex === 5"
+            v-model="userEmail"
+            v-bind="userEmailAttrs"
+            :userEmailErrorMsg="userEmailErrorMsg"
+            :errors="errors"
+            :values="values"
+          />
+          <!-- QUESTION FIVE -->
+
+          <!-- QUESTION SIX -->
+          <RegisterQuestionSix
+            v-if="activeStepIndex === 6"
+            v-model="userPassword"
+            v-bind="userPasswordAttrs"
+            :errors="errors"
+            :values="values"
+          />
+          <!-- QUESTION SIX -->
 
           <!-- FORM-NAV BUTTONS -->
           <RegisterFormButtons
@@ -208,9 +321,7 @@ function nextQuestion() {
       font-size: 12px;
       font-weight: 400;
       line-height: 18px;
-      letter-spacing: 0em;
-      text-align: left;
-
+      letter-spacing: -0.1px;
       color: #28293d;
     }
 
@@ -226,7 +337,8 @@ function nextQuestion() {
       font-size: 13px;
       font-weight: 500;
       line-height: 16px;
-      letter-spacing: 0.20000000298023224px;
+      letter-spacing: -0.1px;
+
       text-align: center;
       color: #3e7bfa;
     }

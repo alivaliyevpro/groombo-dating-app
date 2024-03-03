@@ -44,8 +44,7 @@
 //   'womenRadioAttrs',
 // ])
 
-const preferredGender = defineModel()
-// console.log(preferredGender.value)
+const preferredGender = defineModel();
 </script>
 
 <template>
@@ -54,9 +53,10 @@ const preferredGender = defineModel()
 
     <div class="reg-form-quest-one__opts-wrapper">
       <div class="reg-form-quest-one__opt-wrapper">
-        <label for="menRadio" class="reg-form-quest-one__men-label"
+        <label for="preferredGender" class="reg-form-quest-one__men-label"
           ><input
             v-model="preferredGender"
+            id="preferredGender"
             class="reg-form-quest-one__men-radio-input"
             type="radio"
             value="men"
@@ -66,7 +66,7 @@ const preferredGender = defineModel()
       </div>
 
       <div class="reg-form-quest-one__opt-wrapper">
-        <label for="womenRadio" class="reg-form-quest-one__women-label"
+        <label for="preferredGender" class="reg-form-quest-one__women-label"
           ><input
             v-model="preferredGender"
             class="reg-form-quest-one__women-radio-input"
@@ -89,10 +89,11 @@ const preferredGender = defineModel()
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    letter-spacing: 0em;
+    letter-spacing: -0.1px;
     text-align: center;
 
-    margin-top: 5px;
+    color: #28293d;
+    margin-top: 8px;
   }
 
   // .reg-form-quest-one__opts-wrapper
@@ -104,6 +105,8 @@ const preferredGender = defineModel()
     gap: 16px;
 
     margin-top: 8px;
+
+    margin-bottom: 24px;
   }
 
   // .reg-form-quest-one__opt-wrapper
@@ -118,8 +121,8 @@ const preferredGender = defineModel()
     font-size: 12px;
     font-weight: 400;
     line-height: 17px;
+    letter-spacing: -0.1px;
     text-align: center;
-
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -149,7 +152,7 @@ const preferredGender = defineModel()
     font-size: 12px;
     font-weight: 400;
     line-height: 17px;
-    letter-spacing: 0em;
+    letter-spacing: -0.1px;
     text-align: center;
 
     display: flex;
