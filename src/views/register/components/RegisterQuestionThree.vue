@@ -1,11 +1,13 @@
 <script setup lang="ts">
 interface Props {
-  userNameErrorMsg: boolean
-  errors: any
-  values: any
+  userNameErrorBoolean: boolean
+  clearCurrentRegFormInput: () => void
+  errors: Record<string, string>
 }
 
-const { errors, userNameErrorMsg } = defineProps<Props>()
+const { errors, userNameErrorBoolean, clearCurrentRegFormInput } =
+  defineProps<Props>()
+
 const userName = defineModel()
 </script>
 
@@ -19,21 +21,23 @@ const userName = defineModel()
           v-model="userName"
           id="userName"
           class="reg-form-quest-three__name-input"
+          :class="{ error: userNameErrorBoolean && errors?.userName }"
           type="text"
           placeholder="Enter your name"
         />
         <button
-          v-if="false"
+          v-if="userNameErrorBoolean && errors?.userName"
+          @click="clearCurrentRegFormInput"
           type="button"
           class="reg-form-quest-three__clear-input-button"
         ></button>
       </label>
       <span
-        v-if="userNameErrorMsg && errors?.userName"
+        v-if="userNameErrorBoolean && errors?.userName"
         class="reg-form-quest-three__error-msg"
       >
-        {{ userNameErrorMsg && errors?.userName }}</span
-      >
+        {{ errors?.userName }}
+      </span>
     </div>
   </div>
 </template>
@@ -55,10 +59,8 @@ const userName = defineModel()
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    // letter-spacing: -0.01em;
-
+    letter-spacing: -0.01em;
     letter-spacing: -0.1px;
-
     text-align: center;
     margin-top: 30px;
   }
@@ -108,7 +110,7 @@ const userName = defineModel()
     outline: none;
   }
 
-  &__name-input .error {
+  .error {
     background-color: rgb(255, 229, 229);
   }
 

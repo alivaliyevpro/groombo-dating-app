@@ -1,11 +1,12 @@
 <script setup lang="ts">
 interface Props {
-  userEmailErrorMsg: boolean
-  errors: any
-  values: any
+  userEmailErrorBoolean: boolean
+  clearCurrentRegFormInput: () => void
+  errors: Record<string, string>
 }
 
-const { errors, userEmailErrorMsg } = defineProps<Props>()
+const { errors, userEmailErrorBoolean, clearCurrentRegFormInput } =
+  defineProps<Props>()
 
 const userEmail = defineModel()
 </script>
@@ -20,17 +21,19 @@ const userEmail = defineModel()
           v-model="userEmail"
           id="userEmail"
           class="reg-form-quest-five__email-input"
+          :class="{ error: userEmailErrorBoolean && errors?.userEmail }"
           type="text"
           maxlength="40"
           placeholder="Enter your E-mail"
         />
         <button
-          v-if="true"
+          v-if="userEmailErrorBoolean && errors?.userEmail"
+          @click="clearCurrentRegFormInput"
           class="reg-form-quest-five__clear-input-button"
         ></button>
       </label>
       <span
-        v-if="userEmailErrorMsg && errors?.userEmail"
+        v-if="userEmailErrorBoolean && errors?.userEmail"
         class="reg-form-quest-five__error-msg"
       >
         {{ errors?.userEmail }}
@@ -105,20 +108,20 @@ const userEmail = defineModel()
     outline: none;
   }
 
-  // &__email-input .error {
-  //   background-color: rgb(255, 229, 229);
-  // }
+  .error {
+    background-color: rgb(255, 229, 229);
+  }
 
-  // &__clear-input-button {
-  //   position: absolute;
-  //   right: 16px;
-  //   top: 12px;
-  //   background-repeat: no-repeat;
-  //   background-image: url(../../../assets/icons/x-icon.svg);
-  //   background-position: center;
-  //   width: 20px;
-  //   height: 16px;
-  // }
+  &__clear-input-button {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/icons/x-icon.svg);
+    background-position: center;
+    width: 20px;
+    height: 16px;
+  }
 
   // .reg-form-quest-five__error-msg
 

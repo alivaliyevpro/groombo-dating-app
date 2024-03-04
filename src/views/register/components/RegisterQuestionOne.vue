@@ -1,50 +1,5 @@
 <script setup lang="ts">
-// interface Props {
-//   menRadioProp: unknown
-//   womenRadioProp: unknown
-//   menRadioAttrsProp: unknown
-//   womenRadioAttrsProp: unknown
-// }
-// interface Props {
-//   myRef: unknown
-// }
-
-// const props = defineProps(['menRadio'])
-
-// const { menRad, womenRad, menAttrs, womenAttrs } = defineProps<Props>()
-// const { myRef } = defineProps<Props>()
-
-// import { useForm } from 'vee-validate'
-// import { toTypedSchema } from '@vee-validate/zod';
-// import * as zod from 'zod';
-
-// interface RegForm {
-// email?: string | null;`
-// password?: string | null;
-// }
-
-// const schema = yup.object({
-// email: yup.string().required().email(),
-// });
-
-//values, errors, <RegForm>
-// const { defineField } = useForm({
-// validationSchema: schema,
-// })
-
-// const [menRadio, menRadioAttrs] = defineField('radio')
-// const [womenRadio, womenRadioAttrs] = defineField('radio')
-
-// const { menRadio } = defineProps<Props>()
-
-// const props = defineProps([
-//   'menRadio',
-//   'menRadioAttrs',
-//   'womenRadio',
-//   'womenRadioAttrs',
-// ])
-
-const preferredGender = defineModel();
+const preferredGender = defineModel()
 </script>
 
 <template>

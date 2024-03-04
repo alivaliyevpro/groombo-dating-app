@@ -1,9 +1,11 @@
 <script setup lang="ts">
 interface Props {
-  userPasswordErrorMsg: boolean
-  errors: any
+  userPasswordErrorBoolean: boolean
+  clearCurrentRegFormInput: () => void
+  errors: Record<string, string>
 }
-const { errors } = defineProps<Props>()
+const { errors, userPasswordErrorBoolean, clearCurrentRegFormInput } =
+  defineProps<Props>()
 
 const userPassword = defineModel()
 </script>
@@ -18,24 +20,21 @@ const userPassword = defineModel()
           v-model="userPassword"
           id="userPassword"
           class="reg-form-quest-six__password-input"
+          :class="{ error: userPasswordErrorBoolean && errors?.userPassword }"
           type="text"
           placeholder="Enter your password"
         />
         <button
-          v-if="true"
+          v-if="userPasswordErrorBoolean && errors?.userPassword"
+          @click="clearCurrentRegFormInput"
           class="reg-form-quest-six__clear-input-button"
         ></button>
       </label>
       <span
-        v-if="userPasswordErrorMsg && errors.userPassword"
+        v-if="userPasswordErrorBoolean && errors?.userPassword"
         class="reg-form-quest-six__error-msg"
       >
-        {{ errors.userPassword }}
-        <!-- {{
-          values?.userPassword?.length < 3
-            ? 'Invalid password'
-            : errors.userPassword
-        }} -->
+        {{ errors?.userPassword }}
       </span>
     </div>
   </div>
@@ -107,20 +106,20 @@ const userPassword = defineModel()
     outline: none;
   }
 
-  // &__password-input .error {
-  //   background-color: rgb(255, 229, 229);
-  // }
+  .error {
+    background-color: rgb(255, 229, 229);
+  }
 
-  // &__clear-input-button {
-  //   position: absolute;
-  //   right: 16px;
-  //   top: 12px;
-  //   background-repeat: no-repeat;
-  //   background-image: url(../../../assets/icons/x-icon.svg);
-  //   background-position: center;
-  //   width: 20px;
-  //   height: 16px;
-  // }
+  &__clear-input-button {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/icons/x-icon.svg);
+    background-position: center;
+    width: 20px;
+    height: 16px;
+  }
 
   // .reg-form-quest-six__error-msg
 

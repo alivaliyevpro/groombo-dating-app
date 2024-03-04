@@ -1,11 +1,12 @@
 <script setup lang="ts">
 interface Props {
-  userBirthdayErrorMsg: boolean
-  errors: any
-  values: any
+  userBirthdayErrorBoolean: boolean
+  clearCurrentRegFormInput: () => void
+  errors: Record<string, string>
 }
 
-const { errors, values, userBirthdayErrorMsg } = defineProps<Props>()
+const { errors, userBirthdayErrorBoolean, clearCurrentRegFormInput } =
+  defineProps<Props>()
 
 const userBirthday = defineModel()
 </script>
@@ -20,37 +21,25 @@ const userBirthday = defineModel()
           v-model="userBirthday"
           id="userBirthday"
           class="reg-form-quest-four__birtday-input"
+          :class="{ error: userBirthdayErrorBoolean && errors?.userBirthday }"
           type="text"
           maxlength="10"
           placeholder="MM.DD.YYYYY"
         />
         <button
-          v-if="false"
+          v-if="userBirthdayErrorBoolean && errors?.userBirthday"
+          @click="clearCurrentRegFormInput"
+          type="button"
           class="reg-form-quest-four__clear-input-button"
         ></button>
       </label>
 
       <span
-        v-if="userBirthdayErrorMsg && errors?.userBirthday"
+        v-if="userBirthdayErrorBoolean && errors?.userBirthday"
         class="reg-form-quest-four__error-msg"
       >
-        {{ values.userBirthday.length === 10 && errors.userBirthday }}
-        <!-- values?.userBirthday?.length === 10 || -->
-        <!-- && errors?.value.userBirthday -->
-        <!-- {{
-          values?.userBirthday?.length === 10
-            ? errors?.userBirthday
-            : 'Invalid date'
-        }} -->
-
-        <!-- {{
-          values.userBirthday.length === 0
-            ? 'this shit required'
-            : values.userBirthday.length === 10 && errors.userBirthday
-        }} -->
+        {{ errors?.userBirthday }}
       </span>
-
-      {{ errors?.userBirthday }}
     </div>
   </div>
 </template>
@@ -121,20 +110,20 @@ const userBirthday = defineModel()
     outline: none;
   }
 
-  // &__birtday-input .error {
-  //   background-color: rgb(255, 229, 229);
-  // }
+  .error {
+    background-color: rgb(255, 229, 229);
+  }
 
-  // &__clear-input-button {
-  //   position: absolute;
-  //   right: 16px;
-  //   top: 12px;
-  //   background-repeat: no-repeat;
-  //   background-image: url(../../../assets/icons/x-icon.svg);
-  //   background-position: center;
-  //   width: 20px;
-  //   height: 16px;
-  // }
+  &__clear-input-button {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-repeat: no-repeat;
+    background-image: url(../../../assets/icons/x-icon.svg);
+    background-position: center;
+    width: 20px;
+    height: 16px;
+  }
 
   // .reg-form-quest-four__error-msg
 

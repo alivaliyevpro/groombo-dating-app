@@ -18,12 +18,6 @@ const { regFormSteps, activeStepIndex } = defineProps<Props>()
       ></div>
     </div>
   </div>
-  <!-- <button
-    @submit.prevent="onRegFormChange"
-    class="mx-auto flex justify-center items-center border mt-4"
-  >
-    SUBMIT THIS SHIT
-  </button> -->
 </template>
 
 <style scoped lang="scss">

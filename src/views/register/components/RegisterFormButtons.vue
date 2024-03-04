@@ -1,12 +1,13 @@
 <script setup lang="ts">
 interface Props {
-  // preferredGenderRadio: boolean | string
   activeStepIndex: number
   prevQuestion: () => void
   nextQuestion: () => void
+  errors: any
+  values: Record<string, any>
 }
 
-const { prevQuestion, nextQuestion } = defineProps<Props>()
+const { prevQuestion, nextQuestion, errors, values } = defineProps<Props>()
 </script>
 
 <template>
@@ -19,10 +20,13 @@ const { prevQuestion, nextQuestion } = defineProps<Props>()
     >
       Back
     </button>
-    <!-- :disabled="!preferredGenderRadio" -->
+
+    <!-- :disabled="!values.userPreferredGender" -->
+
     <button
       type="button"
       @click.prevent="nextQuestion"
+      :disabled="!values.userPreferredGender || errors.userPassword"
       class="reg-form-buttons__item reg-form-button button--next"
     >
       Next
