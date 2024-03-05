@@ -1,17 +1,15 @@
 <script setup lang="ts">
-// TODO: Ask help for Resolving validation issue with userBirthday
+// TODO: Check if ChatGPT can do better refactor
 // TODO: Hide/Show eye icon for password input
 // TODO: Make every form input focused when rendered and/or 'x' button clicked.
 // TODO: Implement Privacy Policy and Terms and Conditions agreements.
-// TODO: Create mobile and desktop responsive UI.
-// TODO: Convert CSS to Tailwind.
+// TODO: Make desktop responsive UI.
 // TODO: Create one template component for radio type questions and one for text typed ones.
 
 import { z } from 'zod'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
-
 import RegisterBanner from '../register/components/RegisterBanner.vue'
 import RegisterFooter from '../register/components/RegisterFooter.vue'
 import RegisterFormButtons from './components/RegisterFormButtons.vue'
@@ -68,29 +66,6 @@ const validationSchema = toTypedSchema(
           message: 'Please use letters only',
         }),
 
-      // Birth Date Validation (TEST)
-      // userBirthday: z
-      //   .string()
-      //   .and(
-      //     z.coerce
-      //       .date()
-      //       .min(
-      //         new Date(`${currentMonth}-${currentDay}-${currentYear - 100}`),
-      //         {
-      //           message: "Sorry, you are too old for using the app",
-      //         }
-      //       )
-      //       .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
-      //         message: 'You cannot input a future date',
-      //       })
-      //       .max(
-      //         new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`),
-      //         {
-      //           message: 'Sorry, you are too young for using the app',
-      //         }
-      //       )
-      //   ),
-
       // Birth Date Validation
       userBirthday: z.coerce
         .date({
@@ -145,7 +120,6 @@ const handleRegFormSubmit = handleSubmit((values: Record<string, any>) => {
   // Submit the form data to the server
 })
 
-// Being Invoked if there is an error and if "Next" button is clicked
 // Resets input field when clicking the 'x' button
 function clearCurrentRegFormInput() {
   switch (activeStepIndex.value) {
@@ -365,40 +339,21 @@ function prevQuestion() {
     // .nav-to-sign-in__wrapper
 
     &__wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 10px;
+      @apply flex items-center justify-center flex-col gap-[10];
     }
 
     // .nav-to-sign-in__title
 
     &__title {
-      font-family: Inter;
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 18px;
-      letter-spacing: -0.1px;
-      color: #28293d;
+      // letter-spacing: -0.1008px;
+      @apply font-sans text-xs font-normal text-dark leading-[18px] -tracking-[0.1px];
     }
 
     // .nav-to-sign-in__button
 
     &__button {
-      width: 86px;
-      height: 32px;
-      border-radius: 10px;
-      background-color: #f1f7ff;
-
-      font-family: Inter;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 16px;
-      letter-spacing: -0.1px;
-
-      text-align: center;
-      color: #3e7bfa;
+      // letter-spacing: -0.1px;
+      @apply w-[86px] h-8 rounded-[10px] bg-[#f1f7ff] font-sans text-xs font-medium leading-4 text-center text-primary -tracking-[0.1px];
     }
   }
 }
