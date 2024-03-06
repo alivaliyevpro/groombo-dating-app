@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const userGender = defineModel();
+const userGender = defineModel()
 // console.log(userGender.value)
 </script>
 
@@ -9,21 +9,24 @@ const userGender = defineModel();
 
     <div class="reg-form-quest-two__opts-wrapper">
       <div class="reg-form-quest-two__opt-wrapper">
-        <label for="menRadio" class="reg-form-quest-two__men-label"
-          ><input
+        <label for="preferredGender" class="reg-form-quest-two__men-label">
+          <input
             v-model="userGender"
+            id="men-radio-input"
             class="reg-form-quest-two__men-radio-input"
             type="radio"
             value="men"
           />
+
           Men
         </label>
       </div>
 
       <div class="reg-form-quest-two__opt-wrapper">
-        <label for="womenRadio" class="reg-form-quest-two__women-label"
+        <label for="preferredGender" class="reg-form-quest-two__women-label"
           ><input
             v-model="userGender"
+            id="women-radio-input"
             class="reg-form-quest-two__women-radio-input"
             type="radio"
             value="women"
@@ -33,6 +36,8 @@ const userGender = defineModel();
       </div>
     </div>
   </div>
+
+  <slot></slot>
 </template>
 
 <style scoped lang="scss">
