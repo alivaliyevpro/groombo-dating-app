@@ -1,11 +1,4 @@
 <script setup lang="ts">
-// TODO: Check if ChatGPT can do better refactor
-// TODO: Hide/Show eye icon for password input
-// TODO: Make every form input focused when rendered and/or 'x' button clicked.
-// TODO: Implement Privacy Policy and Terms and Conditions agreements.
-// TODO: Make desktop responsive UI.
-// TODO: Create one template component for radio type questions and one for text typed ones.
-
 import { z } from 'zod'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
@@ -15,8 +8,8 @@ import RegisterFooter from '../register/components/RegisterFooter.vue'
 import RegisterFormButtons from './components/RegisterFormButtons.vue'
 import RegisterFormSteps from './components/RegisterFormSteps.vue'
 
-import RegisterQuestionOne from './components/RegisterQuestionOne.vue'
-import RegisterQuestionTwo from './components/RegisterQuestionTwo.vue'
+import RegisterRadioTypeQuestion from './components/RegisterRadioTypeQuestion.vue'
+
 import RegisterQuestionThree from './components/RegisterQuestionThree.vue'
 import RegisterQuestionFour from './components/RegisterQuestionFour.vue'
 import RegisterQuestionFive from './components/RegisterQuestionFive.vue'
@@ -76,7 +69,7 @@ const validationSchema = toTypedSchema(
           message: 'Sorry, you are too old for using the app',
         })
         .max(new Date(`${currentMonth}-${currentDay}-${currentYear}`), {
-          message: 'You cannot input a future date',
+          message: 'You cannot input current or a future date',
         })
         .max(new Date(`${currentMonth}-${currentDay}-${currentYear - 18}`), {
           message: 'Sorry, you are too young for using the app',
@@ -145,6 +138,7 @@ function nextQuestion() {
       if (Boolean(userPreferredGender.value)) {
         userPreferredGenderErrorBoolean.value = false
         activeStepIndex.value++
+        console.log('keçdi 1')
       } else {
         userPreferredGenderErrorBoolean.value = true
       }
@@ -153,6 +147,7 @@ function nextQuestion() {
       if (Boolean(userGender.value)) {
         userGenderErrorBoolean.value = false
         activeStepIndex.value++
+        console.log('keçdi 2')
       } else {
         userGenderErrorBoolean.value = true
       }
@@ -207,6 +202,23 @@ function prevQuestion() {
     activeStepIndex.value--
   }
 }
+
+const radioInputQuests = ref([
+  {
+    formStepNum: 1,
+    title: 'Who are you looking for?',
+    inputmodel: userPreferredGender,
+    inputBind: userPreferredGenderAttrs,
+    genders: { men: 'men', women: 'women' },
+  },
+  {
+    formStepNum: 2,
+    title: 'Who are you?',
+    inputmodel: userGender,
+    inputBind: userGenderAttrs,
+    genders: { men: 'men', women: 'women' },
+  },
+])
 </script>
 
 <template>
@@ -215,21 +227,47 @@ function prevQuestion() {
     <form @submit.prevent="nextQuestion" class="reg-form">
       <div class="reg-form__container">
         <div class="reg-form__wrapper">
-          <!-- QUESTION ONE -->
-          <RegisterQuestionOne
-            v-if="activeStepIndex === 1"
-            v-model="userPreferredGender"
-            v-bind="userPreferredGenderAttrs"
-          />
-          <!-- QUESTION ONE -->
+          <!-- RADIO TYPE QUESTIONS  -->
+          <RegisterRadioTypeQuestion
+            v-for="(radioInputQuest, index) in radioInputQuests"
+            :key="index"
+            :v-model="radioInputQuest.inputmodel"
+            :v-bind="radioInputQuest.inputBind"
+          >
+            <template
+              #title
+              v-if="activeStepIndex === radioInputQuest.formStepNum"
+            >
+              <h3 class="reg-form-quest-radio__title">
+                {{ radioInputQuest.title }}
+              </h3>
+            </template>
 
-          <!-- QUESTION TWO -->
-          <RegisterQuestionTwo
-            v-if="activeStepIndex === 2"
-            v-model="userGender"
-            v-bind="userGenderAttrs"
-          />
-          <!-- QUESTION TWO -->
+            <template
+              #label
+              v-if="activeStepIndex === radioInputQuest.formStepNum"
+            >
+              <label
+                v-for="(gender, index) in radioInputQuest.genders"
+                :key="index"
+                :for="`${gender}-radio-input`"
+                :class="`reg-form-quest-radio__${gender}-label`"
+              >
+                <input
+                  v-model="radioInputQuest.inputmodel"
+                  :id="`${gender}-radio-input`"
+                  :class="`reg-form-quest-radio__${gender}-radio-input`"
+                  type="radio"
+                  :value="`${gender}`"
+                />
+
+                {{ gender }}
+              </label>
+            </template>
+          </RegisterRadioTypeQuestion>
+          <!-- RADIO TYPE QUESTIONS  -->
+
+          <!-- ---------------------------------------------------------- -->
 
           <!-- QUESTION THREE -->
           <RegisterQuestionThree
@@ -332,7 +370,7 @@ function prevQuestion() {
     // .reg-form__nav-to-sign-in
 
     &__nav-to-sign-in {
-      @apply mt-[39.5px];
+      @apply mt-[39.5px] hidden;
     }
   }
   .nav-to-sign-in {
@@ -355,6 +393,76 @@ function prevQuestion() {
       // letter-spacing: -0.1px;
       @apply w-[86px] h-8 rounded-[10px] bg-[#f1f7ff] font-sans text-xs font-medium leading-4 text-center text-primary -tracking-[0.1px];
     }
+  }
+}
+
+// ----------------------------------------------------------------
+
+.reg-form-quest-radio {
+  // .reg-form-quest-radio__title
+
+  &__title {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+    text-align: center;
+    color: #28293d;
+    margin-top: 8px;
+  }
+
+  // .reg-form-quest-radio__men-radio-input
+
+  &__men-radio-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #f1f7ff;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background-image: url(../../assets/icons/male-icon.svg);
+    background-size: 20.13px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/male-white-icon.svg')];
+  }
+
+  // .reg-form-quest-radio__men-label,
+  // .reg-form-quest-radio__women-label
+
+  &__women-label,
+  &__men-label {
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: -0.1px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    margin-bottom: 24px;
+  }
+
+  // .reg-form-quest-radio__women-radio-input
+
+  &__women-radio-input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    background-image: url(../../assets/icons/female-icon.svg);
+
+    background-size: 14.38px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #f1f7ff;
+
+    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/female-white-icon.svg')];
   }
 }
 </style>

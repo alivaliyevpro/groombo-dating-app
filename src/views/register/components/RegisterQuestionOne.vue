@@ -7,30 +7,34 @@ const preferredGender = defineModel()
     <h3 class="reg-form-quest-one__title">Who are you looking for?</h3>
 
     <div class="reg-form-quest-one__opts-wrapper">
-      <div class="reg-form-quest-one__opt-wrapper">
-        <label for="preferredGender" class="reg-form-quest-one__men-label"
-          ><input
+      <!-- <div class="reg-form-quest-one__opt-wrapper">
+        <label for="preferredGender" class="reg-form-quest-one__men-label">
+          <input
             v-model="preferredGender"
-            id="preferredGender"
+            id="men-radio-input"
             class="reg-form-quest-one__men-radio-input"
             type="radio"
             value="men"
           />
+
           Men
         </label>
-      </div>
+      </div> -->
 
+      <slot name="input"></slot>
+      <!-- 
       <div class="reg-form-quest-one__opt-wrapper">
         <label for="preferredGender" class="reg-form-quest-one__women-label"
           ><input
             v-model="preferredGender"
+            id="men-radio-input"
             class="reg-form-quest-one__women-radio-input"
             type="radio"
             value="women"
           />
           Women
         </label>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -46,7 +50,6 @@ const preferredGender = defineModel()
     line-height: 24px;
     letter-spacing: -0.1px;
     text-align: center;
-
     color: #28293d;
     margin-top: 8px;
   }

@@ -4,7 +4,7 @@
 // }
 // const { desktopView } = defineProps<Props>()
 
-const desktopView = false;
+const desktopView = false
 </script>
 
 <template>
@@ -28,8 +28,13 @@ const desktopView = false;
             </div>
 
             <!-- Mobile cover content-->
-            <div v-else class="reg-banner-cover__mobile-content reg-banner-cover-content">
-              <h1 class="reg-banner-cover-content__title">Make The First Move.</h1>
+            <div
+              v-else
+              class="reg-banner-cover__mobile-content reg-banner-cover-content"
+            >
+              <h1 class="reg-banner-cover-content__title">
+                Make The First Move.
+              </h1>
               <p class="reg-banner-cover-content__text">
                 Start meeting new people <br />
                 in your area!
