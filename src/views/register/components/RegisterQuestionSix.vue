@@ -4,6 +4,7 @@ interface Props {
   clearCurrentRegFormInput: () => void
   errors: Record<string, string>
 }
+
 const { errors, userPasswordErrorBoolean, clearCurrentRegFormInput } =
   defineProps<Props>()
 

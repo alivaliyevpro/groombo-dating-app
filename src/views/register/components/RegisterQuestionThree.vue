@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 interface Props {
   userNameErrorBoolean: boolean
   clearCurrentRegFormInput: () => void
@@ -53,13 +55,10 @@ const userName = defineModel()
   // .reg-form-quest-three__title
 
   &__title {
-    // border: 1px solid red;
-
     font-family: Inter;
     font-size: 14px;
     font-weight: 600;
     line-height: 24px;
-    letter-spacing: -0.01em;
     letter-spacing: -0.1px;
     text-align: center;
     margin-top: 30px;
@@ -68,16 +67,12 @@ const userName = defineModel()
   // .reg-form-quest-three__input-wrapper
 
   &__input-wrapper {
-    // border: 1px solid red;
-
     margin-block: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     height: 68px;
-    // border: 1px solid red;
   }
 
   // .reg-form-quest-three__name-label
@@ -90,21 +85,16 @@ const userName = defineModel()
   // .reg-form-quest-three__name-input
 
   &__name-input {
-    // border: 1px solid red;
-
     width: 280px;
     height: 40px;
     border-radius: 10px;
     background-color: rgba(241, 247, 255, 0.8);
-
     @apply font-sans;
     font-size: 13px;
     font-weight: 400;
     line-height: 16px;
     letter-spacing: -0.1px;
-
     text-align: left;
-    // padding: 12px, 16px, 12px, 16px;
     padding-left: 16px;
     padding-right: 40px;
     outline: none;
@@ -118,8 +108,6 @@ const userName = defineModel()
     position: absolute;
     right: 16px;
     top: 12px;
-    // border: 1px solid red;
-
     background-repeat: no-repeat;
     background-image: url(../../../assets/icons/x-icon.svg);
     background-position: center;
@@ -130,10 +118,6 @@ const userName = defineModel()
   // .reg-form-quest-three__error-msg
 
   &__error-msg {
-    // border: 1px solid red;
-
-    // display: none;
-
     margin-top: 5px;
     width: 280px;
     height: 24px;
@@ -142,7 +126,6 @@ const userName = defineModel()
     display: flex;
     align-items: center;
     justify-content: center;
-
     @apply font-sans;
     font-size: 10px;
     font-weight: 400;

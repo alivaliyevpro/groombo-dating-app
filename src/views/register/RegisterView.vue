@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import RegisterBanner from '../register/components/RegisterBanner.vue'
@@ -9,11 +9,7 @@ import RegisterFormButtons from './components/RegisterFormButtons.vue'
 import RegisterFormSteps from './components/RegisterFormSteps.vue'
 
 import RegisterRadioTypeQuestion from './components/RegisterRadioTypeQuestion.vue'
-
-import RegisterQuestionThree from './components/RegisterQuestionThree.vue'
-import RegisterQuestionFour from './components/RegisterQuestionFour.vue'
-import RegisterQuestionFive from './components/RegisterQuestionFive.vue'
-import RegisterQuestionSix from './components/RegisterQuestionSix.vue'
+import RegisterTextTypeQuestion from './components/RegisterTextTypeQuestion.vue'
 
 interface IRegForm {
   userPreferredGender?: string | undefined
@@ -207,18 +203,70 @@ const radioInputQuests = ref([
   {
     formStepNum: 1,
     title: 'Who are you looking for?',
-    inputmodel: userPreferredGender,
+    inputModel: userPreferredGender,
     inputBind: userPreferredGenderAttrs,
     genders: { men: 'men', women: 'women' },
   },
   {
     formStepNum: 2,
     title: 'Who are you?',
-    inputmodel: userGender,
+    inputModel: userGender,
     inputBind: userGenderAttrs,
     genders: { men: 'men', women: 'women' },
   },
 ])
+
+const textInputQuests = ref([
+  {
+    formStepNum: 3,
+    title: 'What is your name?',
+    inputModel: userName,
+    inputBind: userNameAttrs,
+    inputLabel: 'userName',
+    placeholder: 'Enter your name',
+    errorBoolean: userNameErrorBoolean,
+  },
+  {
+    formStepNum: 4,
+    title: 'When is your birthday',
+    inputModel: userBirthday,
+    inputBind: userBirthdayAttrs,
+    inputLabel: 'userBirthday',
+    placeholder: 'Enter your name',
+    errorBoolean: userBirthdayErrorBoolean,
+  },
+  {
+    formStepNum: 5,
+    title: 'What is your email?',
+    inputModel: userEmail,
+    inputBind: userEmailAttrs,
+    inputLabel: 'userEmail',
+    placeholder: 'Enter your name',
+    errorBoolean: userEmailErrorBoolean,
+  },
+  {
+    formStepNum: 6,
+    title: 'What is your password?',
+    inputModel: userPassword,
+    inputBind: userPasswordAttrs,
+    inputLabel: 'userPassword',
+    placeholder: 'Enter your name',
+    errorBoolean: userPasswordErrorBoolean,
+  },
+])
+
+const inputError = computed(() => {
+  switch (activeStepIndex.value) {
+    case 3:
+      return errors.value.userName
+    case 4:
+      return errors.value.userBirthday
+    case 5:
+      return errors.value.userEmail
+    case 6:
+      return errors.value.userPassword
+  }
+})
 </script>
 
 <template>
@@ -229,10 +277,9 @@ const radioInputQuests = ref([
         <div class="reg-form__wrapper">
           <!-- RADIO TYPE QUESTIONS  -->
           <RegisterRadioTypeQuestion
+            v-if="activeStepIndex === 1 || activeStepIndex === 2"
             v-for="(radioInputQuest, index) in radioInputQuests"
             :key="index"
-            :v-model="radioInputQuest.inputmodel"
-            :v-bind="radioInputQuest.inputBind"
           >
             <template
               #title
@@ -254,7 +301,7 @@ const radioInputQuests = ref([
                 :class="`reg-form-quest-radio__${gender}-label`"
               >
                 <input
-                  v-model="radioInputQuest.inputmodel"
+                  v-model="radioInputQuest.inputModel"
                   :id="`${gender}-radio-input`"
                   :class="`reg-form-quest-radio__${gender}-radio-input`"
                   type="radio"
@@ -267,51 +314,62 @@ const radioInputQuests = ref([
           </RegisterRadioTypeQuestion>
           <!-- RADIO TYPE QUESTIONS  -->
 
-          <!-- ---------------------------------------------------------- -->
+          <!-- TEXT TYPE QUESTIONS  -->
+          <RegisterTextTypeQuestion
+            v-for="(textInputQuest, index) in textInputQuests"
+            :v-if="activeStepIndex === textInputQuest.formStepNum"
+            :key="index"
+          >
+            <template
+              #question
+              v-if="activeStepIndex === textInputQuest.formStepNum"
+            >
+              <div class="reg-form__quest reg-form-quest-text">
+                <h3
+                  v-if="activeStepIndex === textInputQuest.formStepNum"
+                  class="reg-form-quest-text__title"
+                >
+                  {{ textInputQuest.title }}
+                </h3>
+                <div class="reg-form-quest-text__input-wrapper">
+                  <label
+                    v-if="activeStepIndex === textInputQuest.formStepNum"
+                    :for="textInputQuest.inputLabel"
+                    class="reg-form-quest-text__text-label"
+                  >
+                    <input
+                      v-model="textInputQuest.inputModel"
+                      :id="textInputQuest.inputLabel"
+                      class="reg-form-quest-text__text-input"
+                      :class="{
+                        error: textInputQuest.errorBoolean && inputError,
+                      }"
+                      type="text"
+                      placeholder="Enter your name"
+                    />
+                    <button
+                      v-if="textInputQuest.errorBoolean && inputError"
+                      @click="clearCurrentRegFormInput"
+                      type="button"
+                      class="reg-form-quest-text__clear-input-button"
+                    ></button>
+                  </label>
 
-          <!-- QUESTION THREE -->
-          <RegisterQuestionThree
-            v-if="activeStepIndex === 3"
-            v-model="userName"
-            v-bind="userNameAttrs"
-            :userNameErrorBoolean="userNameErrorBoolean"
-            :clearCurrentRegFormInput="clearCurrentRegFormInput"
-            :errors="errors"
-          />
-          <!-- QUESTION THREE -->
-
-          <!-- QUESTION FOUR -->
-          <RegisterQuestionFour
-            v-if="activeStepIndex === 4"
-            v-model="userBirthday"
-            v-bind="userBirthdayAttrs"
-            :userBirthdayErrorBoolean="userBirthdayErrorBoolean"
-            :clearCurrentRegFormInput="clearCurrentRegFormInput"
-            :errors="errors"
-          />
-          <!-- QUESTION FOUR -->
-
-          <!-- QUESTION FIVE -->
-          <RegisterQuestionFive
-            v-if="activeStepIndex === 5"
-            v-model="userEmail"
-            v-bind="userEmailAttrs"
-            :userEmailErrorBoolean="userEmailErrorBoolean"
-            :clearCurrentRegFormInput="clearCurrentRegFormInput"
-            :errors="errors"
-          />
-          <!-- QUESTION FIVE -->
-
-          <!-- QUESTION SIX -->
-          <RegisterQuestionSix
-            v-if="activeStepIndex === 6"
-            v-model="userPassword"
-            v-bind="userPasswordAttrs"
-            :userPasswordErrorBoolean="userPasswordErrorBoolean"
-            :clearCurrentRegFormInput="clearCurrentRegFormInput"
-            :errors="errors"
-          />
-          <!-- QUESTION SIX -->
+                  <span
+                    v-if="
+                      textInputQuest.errorBoolean &&
+                      inputError &&
+                      textInputQuest.formStepNum
+                    "
+                    class="reg-form-quest-text__error-msg"
+                  >
+                    {{ inputError }}
+                  </span>
+                </div>
+              </div>
+            </template>
+          </RegisterTextTypeQuestion>
+          <!-- TEXT TYPE QUESTIONS  -->
 
           <!-- FORM-NAV BUTTONS -->
           <RegisterFormButtons
@@ -463,6 +521,98 @@ const radioInputQuests = ref([
     background-color: #f1f7ff;
 
     @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/female-white-icon.svg')];
+  }
+}
+
+// ----------------------TEXT INPUT TYPE-------------------------------
+
+.reg-form {
+  // .reg-form__quest
+
+  &__quest {
+  }
+}
+.reg-form-quest-text {
+  // .reg-form-quest-text__title
+
+  &__title {
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  // .reg-form-quest-text__input-wrapper
+
+  &__input-wrapper {
+    margin-block: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 68px;
+  }
+
+  // .reg-form-quest-text__text-label
+
+  &__text-label {
+    // border: 1px solid red;
+    position: relative;
+  }
+
+  // .reg-form-quest-text__text-input
+
+  &__text-input {
+    width: 280px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: rgba(241, 247, 255, 0.8);
+    @apply font-sans;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: -0.1px;
+    text-align: left;
+    padding-left: 16px;
+    padding-right: 40px;
+    outline: none;
+  }
+
+  .error {
+    background-color: rgb(255, 229, 229);
+  }
+
+  &__clear-input-button {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    background-repeat: no-repeat;
+    background-image: url(../../assets/icons/x-icon.svg);
+    background-position: center;
+    width: 20px;
+    height: 16px;
+  }
+
+  // .reg-form-quest-text__error-msg
+
+  &__error-msg {
+    margin-top: 5px;
+    width: 280px;
+    height: 24px;
+    padding-inline: 16px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @apply font-sans;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    color: #ff3b3b;
+    background-color: #ffe5e5;
   }
 }
 </style>
