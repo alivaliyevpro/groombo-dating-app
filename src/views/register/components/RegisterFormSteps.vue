@@ -25,26 +25,32 @@ const { regFormSteps, activeStepIndex } = defineProps<Props>()
   // .reg-form-steps__wrapper
 
   &__wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 41.5px;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // gap: 12px;
+    // margin-top: 41.5px;
+
+    @apply flex items-center justify-center gap-3 mt-10;
   }
 
   // .reg-form-steps__step
 
   &__step {
-    width: 8px;
-    height: 8px;
-    border-radius: 2px;
-    background-color: #cde3fd;
+    // width: 8px;
+    // height: 8px;
+    // border-radius: 2px;
+    // background-color: #cde3fd;
+
+    @apply w-[8px] h-[8px] rounded-sm bg-[#cde3fd];
   }
 }
 .reg-form-steps--active-step {
-  width: 11px;
-  height: 11px;
-  border-radius: 3px;
-  background-color: #3e7bfa;
+  // width: 11px;
+  // height: 11px;
+  // border-radius: 3px;
+  // background-color: #3e7bfa;
+
+  @apply w-[11px] h-[11px] rounded-sm bg-[#3e7bfa];
 }
 </style>

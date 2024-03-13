@@ -49,9 +49,7 @@ const desktopView = false
 
 <style scoped lang="scss">
 .reg-banner {
-  @apply h-[395px] xl:h-[807px] xl:px-8;
-
-  // border: 5px solid #04ee04;
+  @apply h-[395px];
 
   // .reg-banner__container
   &__container {
@@ -60,7 +58,7 @@ const desktopView = false
 
   // .reg-banner__wrapper
   &__wrapper {
-    @apply flex justify-center items-center xl:justify-start h-full w-full relative mt-7; // xl:ml-5
+    @apply flex justify-center items-center xl:justify-start h-full w-full relative mt-7;
   }
 
   // .reg-banner__layer
@@ -125,7 +123,7 @@ const desktopView = false
   // .reg-banner-cover-content__text
 
   &__text {
-    @apply font-sans ml-4 mt-11 text-white font-normal text-sm text-left leading-6 skew-y-1;
+    @apply font-sans ml-4 mt-11 text-white font-normal text-sm text-left leading-6 skew-y-1 -tracking-[0.016em];
   }
 }
 </style>

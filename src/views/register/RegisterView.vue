@@ -134,7 +134,6 @@ function nextQuestion() {
       if (Boolean(userPreferredGender.value)) {
         userPreferredGenderErrorBoolean.value = false
         activeStepIndex.value++
-        console.log('keçdi 1')
       } else {
         userPreferredGenderErrorBoolean.value = true
       }
@@ -143,7 +142,6 @@ function nextQuestion() {
       if (Boolean(userGender.value)) {
         userGenderErrorBoolean.value = false
         activeStepIndex.value++
-        console.log('keçdi 2')
       } else {
         userGenderErrorBoolean.value = true
       }
@@ -199,6 +197,7 @@ function prevQuestion() {
   }
 }
 
+// Radio type question data
 const radioInputQuests = ref([
   {
     formStepNum: 1,
@@ -216,6 +215,7 @@ const radioInputQuests = ref([
   },
 ])
 
+// Text type question data
 const textInputQuests = ref([
   {
     formStepNum: 3,
@@ -255,6 +255,7 @@ const textInputQuests = ref([
   },
 ])
 
+// Input error tracker
 const inputError = computed(() => {
   switch (activeStepIndex.value) {
     case 3:
@@ -319,56 +320,13 @@ const inputError = computed(() => {
             v-for="(textInputQuest, index) in textInputQuests"
             :v-if="activeStepIndex === textInputQuest.formStepNum"
             :key="index"
-          >
-            <template
-              #question
-              v-if="activeStepIndex === textInputQuest.formStepNum"
-            >
-              <div class="reg-form__quest reg-form-quest-text">
-                <h3
-                  v-if="activeStepIndex === textInputQuest.formStepNum"
-                  class="reg-form-quest-text__title"
-                >
-                  {{ textInputQuest.title }}
-                </h3>
-                <div class="reg-form-quest-text__input-wrapper">
-                  <label
-                    v-if="activeStepIndex === textInputQuest.formStepNum"
-                    :for="textInputQuest.inputLabel"
-                    class="reg-form-quest-text__text-label"
-                  >
-                    <input
-                      v-model="textInputQuest.inputModel"
-                      :id="textInputQuest.inputLabel"
-                      class="reg-form-quest-text__text-input"
-                      :class="{
-                        error: textInputQuest.errorBoolean && inputError,
-                      }"
-                      type="text"
-                      placeholder="Enter your name"
-                    />
-                    <button
-                      v-if="textInputQuest.errorBoolean && inputError"
-                      @click="clearCurrentRegFormInput"
-                      type="button"
-                      class="reg-form-quest-text__clear-input-button"
-                    ></button>
-                  </label>
-
-                  <span
-                    v-if="
-                      textInputQuest.errorBoolean &&
-                      inputError &&
-                      textInputQuest.formStepNum
-                    "
-                    class="reg-form-quest-text__error-msg"
-                  >
-                    {{ inputError }}
-                  </span>
-                </div>
-              </div>
-            </template>
-          </RegisterTextTypeQuestion>
+            :inputError="inputError"
+            :textInputQuest="textInputQuest"
+            :activeStepIndex="activeStepIndex"
+            :clearCurrentRegFormInput="clearCurrentRegFormInput"
+            v-model="textInputQuest.inputModel"
+            v-bind="textInputQuest.inputBind"
+          />
           <!-- TEXT TYPE QUESTIONS  -->
 
           <!-- FORM-NAV BUTTONS -->
@@ -408,211 +366,55 @@ const inputError = computed(() => {
 
 <style scoped lang="scss">
 .page {
-  flex: 1 1 auto;
-
-  .reg-form {
-    // .reg-form__container
-
-    &__container {
-    }
-
-    // .reg-form__wrapper
-
-    &__wrapper {
-    }
-  }
-  .reg-form-quest {
-  }
+  // flex: 1 1 auto;
+  @apply flex-auto;
 
   .reg-form {
     // .reg-form__nav-to-sign-in
-
     &__nav-to-sign-in {
-      @apply mt-[39.5px] hidden;
+      @apply mt-[39.5px];
     }
   }
   .nav-to-sign-in {
     // .nav-to-sign-in__wrapper
-
     &__wrapper {
-      @apply flex items-center justify-center flex-col gap-[10];
+      @apply flex items-center justify-center flex-col gap-[10px];
     }
 
     // .nav-to-sign-in__title
-
     &__title {
-      // letter-spacing: -0.1008px;
-      @apply font-sans text-xs font-normal text-dark leading-[18px] -tracking-[0.1px];
+      @apply font-sans text-xs font-normal text-dark leading-[18px] -tracking-normal;
     }
 
     // .nav-to-sign-in__button
-
     &__button {
-      // letter-spacing: -0.1px;
-      @apply w-[86px] h-8 rounded-[10px] bg-[#f1f7ff] font-sans text-xs font-medium leading-4 text-center text-primary -tracking-[0.1px];
+      @apply w-[86px] h-8 rounded-[10px] bg-[#f1f7ff] font-sans text-xs font-medium leading-4 text-center text-primary -tracking-tight;
     }
   }
 }
 
-// ----------------------------------------------------------------
-
 .reg-form-quest-radio {
   // .reg-form-quest-radio__title
-
   &__title {
-    font-family: Inter;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: -0.1px;
-    text-align: center;
-    color: #28293d;
-    margin-top: 8px;
+    @apply font-sans text-sm font-semibold leading-6 -tracking-normal text-center text-[#28293d] mt-2;
   }
 
   // .reg-form-quest-radio__men-radio-input
-
   &__men-radio-input {
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #f1f7ff;
-    width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    background-image: url(../../assets/icons/male-icon.svg);
-    background-size: 20.13px;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/male-white-icon.svg')];
+    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/male-white-icon.svg')] bg-[url(../../assets/icons/male-icon.svg)] appearance-none bg-[#f1f7ff] w-[55px] h-[55px] rounded-xl [background-size:20.13px] bg-no-repeat bg-center;
   }
 
   // .reg-form-quest-radio__men-label,
   // .reg-form-quest-radio__women-label
-
   &__women-label,
   &__men-label {
-    font-family: Roboto;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 17px;
-    letter-spacing: -0.1px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 8px;
-    margin-bottom: 24px;
+    @apply font-[Roboto] text-xs font-normal leading-4 -tracking-wide text-center flex flex-col gap-[6px] mt-2 mb-6;
   }
 
   // .reg-form-quest-radio__women-radio-input
 
   &__women-radio-input {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 55px;
-    height: 55px;
-    border-radius: 12px;
-    background-image: url(../../assets/icons/female-icon.svg);
-
-    background-size: 14.38px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: #f1f7ff;
-
-    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/female-white-icon.svg')];
-  }
-}
-
-// ----------------------TEXT INPUT TYPE-------------------------------
-
-.reg-form {
-  // .reg-form__quest
-
-  &__quest {
-  }
-}
-.reg-form-quest-text {
-  // .reg-form-quest-text__title
-
-  &__title {
-    font-family: Inter;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 24px;
-    letter-spacing: -0.1px;
-    text-align: center;
-    margin-top: 30px;
-  }
-
-  // .reg-form-quest-text__input-wrapper
-
-  &__input-wrapper {
-    margin-block: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 68px;
-  }
-
-  // .reg-form-quest-text__text-label
-
-  &__text-label {
-    // border: 1px solid red;
-    position: relative;
-  }
-
-  // .reg-form-quest-text__text-input
-
-  &__text-input {
-    width: 280px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: rgba(241, 247, 255, 0.8);
-    @apply font-sans;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: -0.1px;
-    text-align: left;
-    padding-left: 16px;
-    padding-right: 40px;
-    outline: none;
-  }
-
-  .error {
-    background-color: rgb(255, 229, 229);
-  }
-
-  &__clear-input-button {
-    position: absolute;
-    right: 16px;
-    top: 12px;
-    background-repeat: no-repeat;
-    background-image: url(../../assets/icons/x-icon.svg);
-    background-position: center;
-    width: 20px;
-    height: 16px;
-  }
-
-  // .reg-form-quest-text__error-msg
-
-  &__error-msg {
-    margin-top: 5px;
-    width: 280px;
-    height: 24px;
-    padding-inline: 16px;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    @apply font-sans;
-    font-size: 10px;
-    font-weight: 400;
-    line-height: 12px;
-    color: #ff3b3b;
-    background-color: #ffe5e5;
+    @apply checked:bg-[#3568D4] checked:bg-[url('../../assets/icons/female-white-icon.svg')] appearance-none w-[55px] h-[55px] rounded-xl bg-[url(../../assets/icons/female-icon.svg)] [background-size:14.38px] bg-no-repeat bg-center bg-[#f1f7ff];
   }
 }
 </style>

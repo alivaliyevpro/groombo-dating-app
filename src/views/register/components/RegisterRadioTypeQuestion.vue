@@ -16,10 +16,7 @@
 .reg-form-quest-radio {
   // .reg-form-quest-radio__opt-wrapper
   &__opt-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
+    @apply flex items-center justify-center gap-4;
   }
 }
 </style>
