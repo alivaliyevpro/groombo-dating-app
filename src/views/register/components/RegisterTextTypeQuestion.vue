@@ -83,8 +83,6 @@ const inputModel = defineModel()
 
   // .reg-form-quest-text__text-label
   &__text-label {
-    // position: relative;
-
     @apply relative;
   }
 
