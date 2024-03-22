@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import AccProfileAside from "../../views/account//components/AccProfileAside.vue";
-import AccRightSide from "../../views/account//components/AccRightSide.vue";
-import AccMobileFooter from "../../views/account//components/AccMobileFooter.vue";
-import AccMobileNavbar from "../../views/account//components/AccMobileNavbar.vue";
-import ProfileView from "./ProfileView.vue";
+import AccProfileAside from '../../views/account//components/AccProfileAside.vue'
+import AccRightSide from '../../views/account//components/AccRightSide.vue'
+import AccMobileFooter from '../../views/account//components/AccMobileFooter.vue'
+import AccMobileNavbar from '../../views/account//components/AccMobileNavbar.vue'
+import AccProfileView from './AccProfileView.vue'
 
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
-import { ref } from "vue";
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { ref } from 'vue'
 
 // interface Props {}
 // const {} = defineProps<Props>()
 
-const breakpoints = useBreakpoints(breakpointsTailwind);
+const breakpoints = useBreakpoints(breakpointsTailwind)
 
-const desktop = breakpoints.greaterOrEqual("xl");
-const mobile = breakpoints.smaller("xl");
+const desktop = breakpoints.greaterOrEqual('xl')
+const mobile = breakpoints.smaller('xl')
 
-const activeLink = ref<number | undefined>(4);
+const activeLink = ref<number | undefined>(4)
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const activeLink = ref<number | undefined>(4);
 
     <!-- Account Main Content-->
     <main class="acc-page">
-      <ProfileView v-if="activeLink === 4" />
+      <AccProfileView v-if="activeLink === 4" />
     </main>
     <!-- Account Main Content -->
 
@@ -54,14 +54,14 @@ const activeLink = ref<number | undefined>(4);
 <style scoped lang="scss">
 .account-container {
   // border: 1px solid green;
-  @apply flex h-full px-4 py-[15px] xl:py-6 flex-col xl:flex-row xl:gap-0 gap-3;
+
+  @apply flex min-h-screen px-4 py-[15px] xl:py-6 flex-col xl:flex-row xl:gap-0 gap-3;
 }
 
 .acc-left-side {
-  // .acc-left-side__wrapper
-
   // border: 1px solid green;
 
+  // .acc-left-side__wrapper
   &__wrapper {
     // border: 1px solid green;
 
@@ -71,7 +71,6 @@ const activeLink = ref<number | undefined>(4);
 
 .acc-page {
   // border: 1px solid rebeccapurple;
-
   @apply flex-auto;
 }
 </style>

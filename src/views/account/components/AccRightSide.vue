@@ -1,41 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
-// interface Props {
-//   activeLink: number
-// }
-
-// const activeLink = defineModel<Props>()
 const activeLink = defineModel()
-// const { activeLink } = defineProps<Props>()
-
-// const breakpoints = useBreakpoints(breakpointsTailwind)
-
-// const desktop = breakpoints.greaterOrEqual('xl')
-// const mobile = breakpoints.smaller('xl')
 
 const navLinks = ref([
-  {
-    title: 'Chat',
-    icon: 'comment',
-  },
-  {
-    title: 'Mail',
-    icon: 'envelope',
-  },
-  {
-    title: 'Favorites',
-    icon: 'heart',
-  },
-  {
-    title: 'Search',
-    icon: 'eye',
-  },
-  {
-    title: 'Profile',
-    icon: 'user',
-  },
+  { title: 'Chat', icon: 'comment' },
+  { title: 'Mail', icon: 'envelope' },
+  { title: 'Favorites', icon: 'heart' },
+  { title: 'Search', icon: 'eye' },
+  { title: 'Profile', icon: 'user' },
 ])
 
 function handleClick(index: number) {
@@ -106,34 +79,24 @@ function handleClick(index: number) {
 <style scoped lang="scss">
 .acc-right-side {
   // .acc-right-side__wrapper
-
   &__wrapper {
-    border: 1px solid blue;
-    @apply flex flex-col h-full w-[119px];
-    border-left: 1px solid #c7c9d9;
+    @apply flex flex-col h-full w-[119px] border-l-[#c7c9d9] border-l border-solid;
   }
 
   // .acc-right-side__logo-wrapper
-
   &__logo-wrapper {
-    // border: 1px solid rebeccapurple;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center;
   }
 
   // .acc-right-side__logo
-
   &__logo {
   }
 
   // .acc-right-side__nav-links
-
   &__nav-links {
   }
 
   // .acc-right-side__footer-links
-
   &__footer-links {
   }
 }
@@ -141,74 +104,42 @@ function handleClick(index: number) {
   @apply flex-auto;
 
   // .nav-links__wrapper
-
   &__wrapper {
-    // border: 1px solid rebeccapurple;
-    margin-top: 140px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 16px;
+    @apply flex items-start flex-col gap-4 mt-36;
   }
 }
 .nav-link {
   // .nav-link__wrapper
-
   &__wrapper {
-    padding-left: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    @apply flex items-center gap-[10px] pl-[14px];
   }
+
   &__icon {
-    width: 20px;
-    height: 20px;
+    @apply w-5 h-5;
   }
+
   &__title {
-    font-family: Inter;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: 0.005em;
-    color: #28293d;
+    @apply font-sans text-base leading-[18px] font-medium text-dark;
   }
 
   &__active-link {
-    font-family: Inter;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 18px;
-    letter-spacing: 0.005em;
-    color: #3e7bfa;
-    border-left: 3px solid #3e7bfa;
-    padding-left: 11px;
+    @apply text-primary font-sans text-base font-medium leading-[18px] pl-[11px] border-l-[3px] border-l-primary border-solid;
   }
+
   &__active-title {
-    color: #3e7bfa;
+    @apply text-primary;
   }
 }
 
 .footer-links {
-  // margin-top: 162px;
-
   // .footer-links__wrapper
-
   &__wrapper {
-    // border: 1px solid rebeccapurple;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding-left: 16px;
+    @apply flex flex-col gap-1 pl-4;
   }
 
   // .footer-links__link-item
-
   &__link-item {
-    font-family: Inter;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-    color: #28293d;
+    @apply font-sans text-xs leading-[18px] font-normal text-dark;
   }
 }
 </style>
