@@ -16,21 +16,12 @@
 .acc-mobile-footer {
   // .acc-mobile-footer__wrapper
   &__wrapper {
-    display: flex;
-    justify-content: space-around;
-    border-top: 1px solid #c7c9d9;
-    padding-top: 24px;
-    padding-bottom: 50px;
+    @apply flex justify-around border-t border-[#c7c9d9] pt-6 pb-[50px];
   }
 
   // .acc-mobile-footer__link-item
   &__link-item {
-    font-family: Inter;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 18px;
-    letter-spacing: 0em;
-    color: #28293d;
+    @apply font-sans text-xs leading-[18px] font-normal text-dark;
   }
 }
 </style>

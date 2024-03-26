@@ -1,4 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const editProfile = defineModel()
+
+function ToggleEditProfileInfo() {
+  editProfile.value = !editProfile.value
+}
+</script>
 
 <template>
   <div class="acc-left-side__profile-aside profile-aside">
@@ -13,8 +19,16 @@
           />
           <h2 class="profile-card__user-name">Robert Fox</h2>
           <div class="profile-card__user-status--online">Online</div>
-          <button class="profile-card__edit-profile" type="button">Edit Profile</button>
-          <button class="profile-card__profile-settings" type="button">Settings</button>
+          <button
+            @click="ToggleEditProfileInfo"
+            class="profile-card__edit-profile"
+            type="button"
+          >
+            Edit Profile
+          </button>
+          <button class="profile-card__profile-settings" type="button">
+            Settings
+          </button>
         </div>
       </div>
       <!-- Profile Card -->

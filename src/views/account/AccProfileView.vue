@@ -1,41 +1,43 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { breakpointsTailwind, useBreakpoints } from "@vueuse/core";
+import { ref } from 'vue'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
-const breakpoints = useBreakpoints(breakpointsTailwind);
+const breakpoints = useBreakpoints(breakpointsTailwind)
 
-const desktop = breakpoints.greaterOrEqual("xl");
-const mobile = breakpoints.smaller("xl");
+const desktop = breakpoints.greaterOrEqual('xl')
+const mobile = breakpoints.smaller('xl')
 
-const userDataLeftCol = ref([
+// Use API Endpoint for User Profile Info
+const UserInfoAll = ref([
   { Age: 26 },
-  { "Date of Birth": "09/18/1995" },
-  { "Marital Status": "Not married" },
-  { Children: "No children" },
-  { Occupation: "Model" },
-  { Religion: "Christianity" },
-  { Languages: "Russian, English" },
-  { Height: "5’4 (1.67m)" },
-  { Weight: "Model" },
-  { "Hair colour": "114 lbs (52kg)" },
-  { "Eyes colour": "Brown" },
-  { Smoking: "Never" },
-  { Drinking: "Sometimes" },
-  { "Level of education": "High school" },
-]);
+  { 'Date of Birth': '09/18/1995' },
+  { 'Marital Status': 'Not married' },
+  { Children: 'No children' },
+  { Occupation: 'Model' },
+  { Religion: 'Christianity' },
+  { Languages: 'Russian, English' },
+  { Height: '5’4 (1.67m)' },
+  { Weight: '114 lbs (52kg)' },
+  { 'Hair colour': '114 lbs (52kg)' },
+  { 'Eyes colour': 'Brown' },
+  { Smoking: 'Never' },
+  { Drinking: 'Sometimes' },
+  { 'Level of education': 'High school' },
+])
 
+// Use API Endpoint for User Profile Images
 const userImageGallery = ref([
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-  { img: "../src/assets/img/gallery-image.png" },
-]);
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+  { img: '../src/assets/img/gallery-image.png' },
+])
 </script>
 
 <template>
@@ -61,12 +63,14 @@ const userImageGallery = ref([
               <!-- User Physical Info Left Column-->
               <div class="user-physical-info__left-col user-data">
                 <div
-                  v-for="userData in userDataLeftCol.slice(0, 7)"
+                  v-for="userInfo in UserInfoAll.slice(0, 7)"
                   class="user-data__wrapper"
                 >
-                  <p class="user-data__data-keys">{{ Object.keys(userData).join() }}:</p>
+                  <p class="user-data__data-keys">
+                    {{ Object.keys(userInfo).join() }}:
+                  </p>
                   <span class="user-data__data-values">{{
-                    Object.values(userData).join()
+                    Object.values(userInfo).join()
                   }}</span>
                 </div>
               </div>
@@ -75,12 +79,14 @@ const userImageGallery = ref([
               <!-- User Physical Info Right Column-->
               <div class="user-physical-info__right-col">
                 <div
-                  v-for="userData in userDataLeftCol.slice(7)"
+                  v-for="userInfo in UserInfoAll.slice(7)"
                   class="user-data__wrapper"
                 >
-                  <p class="user-data__data-keys">{{ Object.keys(userData).join() }}:</p>
+                  <p class="user-data__data-keys">
+                    {{ Object.keys(userInfo).join() }}:
+                  </p>
                   <span class="user-data__data-values">{{
-                    Object.values(userData).join()
+                    Object.values(userInfo).join()
                   }}</span>
                 </div>
               </div>
@@ -103,7 +109,7 @@ const userImageGallery = ref([
         <div class="profile-images__wrapper">
           <!-- User Images Header -->
           <div class="profile-images__header-wrapper">
-            <h3 class="profile-images__header">Photos</h3>
+            <h3 class="profile-images__title">Photos</h3>
             <button class="profile-images__edit-images-btn">Edit Photos</button>
           </div>
           <!-- User Images Header -->
@@ -151,7 +157,7 @@ const userImageGallery = ref([
 
   // .acc-profile__log-out-btn
   &__log-out-btn {
-    @apply font-sans text-[13px] font-medium leading-4 text-[#3e7bfa] mb-4 mt-10 xl:mt-5 text-center;
+    @apply font-sans text-[13px] font-medium leading-4 text-primary mb-4 mt-10 xl:mt-5 text-center;
   }
 
   // .acc-profile__user-profile-images
@@ -196,7 +202,6 @@ const userImageGallery = ref([
 
   // .user-physical-info__wrapper
   &__wrapper {
-    // @apply flex flex-col xl:flex-row;
     @apply flex gap-14 xl:gap-10;
   }
 
@@ -244,13 +249,13 @@ const userImageGallery = ref([
     @apply flex justify-between;
   }
 
-  // .profile-images__header
-  &__header {
-    @apply font-sans text-sm font-bold leading-6 text-[#28293d];
+  // .profile-images__title
+  &__title {
+    @apply font-sans text-sm font-bold leading-6 text-dark;
   }
 
   &__edit-images-btn {
-    @apply font-sans text-[13px] font-medium leading-4 text-[#3e7bfa];
+    @apply font-sans text-[13px] font-medium leading-4 text-primary;
   }
 
   // .profile-images__gallery-wrapper
@@ -264,8 +269,6 @@ const userImageGallery = ref([
   }
 
   &__image-item {
-    // @apply w-[136px] h-[175px] xl:w-[158px] xl:h-[190px] rounded-[10px] bg-contain;
-
     @apply w-[131px] h-[175px] xl:w-[155px] xl:h-[190px] rounded-[10px] bg-contain;
   }
 }

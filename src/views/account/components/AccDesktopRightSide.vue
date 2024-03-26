@@ -11,7 +11,7 @@ const navLinks = ref([
   { title: 'Profile', icon: 'user' },
 ])
 
-function handleClick(index: number) {
+function handleActiveLink(index: number) {
   activeLink.value = index
   console.log(`${index} clicked`)
 }
@@ -39,7 +39,7 @@ function handleClick(index: number) {
             :key="index"
             class="nav-link__wrapper"
             :class="activeLink === index && 'nav-link__active-link'"
-            @click="handleClick(index)"
+            @click="handleActiveLink(index)"
           >
             <i
               v-if="activeLink === index"

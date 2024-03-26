@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue'
 
-const activeLink = defineModel();
+const activeLink = defineModel()
 
 const navLinks = ref([
-  { icon: "comment" },
-  { icon: "envelope" },
-  { icon: "heart" },
-  { icon: "eye" },
-  { icon: "user" },
-]);
+  { icon: 'comment' },
+  { icon: 'envelope' },
+  { icon: 'heart' },
+  { icon: 'eye' },
+  { icon: 'user' },
+])
 
 function handleClick(index: number) {
-  activeLink.value = index;
-  console.log(`${index} clicked`);
+  activeLink.value = index
+  console.log(`${index} clicked`)
 }
 </script>
 
@@ -34,7 +34,10 @@ function handleClick(index: number) {
           class="mobile-nav-link__icon"
           :class="`fa-solid fa-${navLink.icon}`"
         ></i>
-        <i v-else :class="`mobile-nav-link__icon fa-regular fa-${navLink.icon}`"></i>
+        <i
+          v-else
+          :class="`mobile-nav-link__icon fa-regular fa-${navLink.icon}`"
+        ></i>
       </button>
       <!-- Nav Link -->
     </div>
@@ -69,7 +72,7 @@ function handleClick(index: number) {
 
   // .mobile-nav-link__icon
   &__icon {
-    @apply w-5 h-5 text-[#3e7bfa];
+    @apply w-5 h-5 text-primary;
   }
 }
 </style>
